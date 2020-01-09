@@ -1,0 +1,14 @@
+repos:
+- repo: https://github.com/luankefei/pre-commit-golang
+  rev: v0.3.4
+  hooks:
+    - id: go-fmt
+    # - id: go-vet
+    - id: go-lint
+    # - id: validate-toml
+    # - id: no-go-testing
+    # - id: gometalinter
+    # - id: golangci-lint
+    # - id: go-critic
+    - id: go-unit-tests
+    - id: go-build
