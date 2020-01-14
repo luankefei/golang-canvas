@@ -2,6 +2,8 @@ package main
 
 import (
 	"image/color"
+	"image/jpeg"
+	"os"
 
 	"github.com/tdewolff/canvas"
 )
@@ -38,6 +40,22 @@ func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, 
 	c.DrawText(x, y, text)
 }
 
+func drawImage(c *canvas.Context) {
+	head, err := os.Open("../static/head.jpeg")
+	if err != nil {
+		panic(err)
+	}
+
+	img, err := jpeg.Decode(head)
+	if err != nil {
+		panic(err)
+	}
+
+	// x, y float64, img image.Image, dpm float64
+	// Scale(1.0/dpm, 1.0/dpm)
+	c.DrawImage(0, 0, img, 1)
+}
+
 func draw(c *canvas.Context) {
 	face := fontFamily.Face(14.0, color.Black, canvas.FontRegular, canvas.FontNormal)
 	c.SetFillColor(canvas.Black)
@@ -51,4 +69,7 @@ func draw(c *canvas.Context) {
 	drawText(c, 70.0, 40.0, canvas.Left, canvas.Center, 10.0)
 	drawText(c, 135.0, 40.0, canvas.Left, canvas.Bottom, 10.0)
 	drawText(c, 200.0, 40.0, canvas.Left, canvas.Justify, 10.0)
+
+	// test drawImage
+	drawImage(c)
 }
