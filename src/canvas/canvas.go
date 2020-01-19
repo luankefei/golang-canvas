@@ -1,11 +1,22 @@
 package canvas
 
-type drawInfo struct {
+type ImageClip struct {
+	width, height, x, y int32
+}
+
+type Image struct {
+	x, y, width, height, opacity, borderRadius int32
+	imageURL                                   string
+	clip                                       ImageClip
+	Drawer
+}
+type Drawer interface {
+	Draw()
 }
 
 type globalConfig struct{}
 
-func createImage(d *drawInfo, g *globalConfig) {
+func createImage(d []Drawer, g *globalConfig) {
 
 }
 
