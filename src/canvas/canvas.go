@@ -1,10 +1,11 @@
 package canvas
 
-type config struct{}
+type drawInfo struct {
+}
 
 type globalConfig struct{}
 
-func createImage(c *config, g *globalConfig) {
+func createImage(d *drawInfo, g *globalConfig) {
 
 }
 
