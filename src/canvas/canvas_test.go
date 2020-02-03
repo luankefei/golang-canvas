@@ -10,10 +10,11 @@ func TestCreateImage(t *testing.T) {
 	var aaa []Drawer
 	fmt.Println(aaa)
 
-	// i := Image{
-	// 	x: 1,
-	// 	y: 2,
-	// }
+	i := Image{
+		x: 1,
+		y: 2,
+	}
+	aaa = append(aaa, &i)
 
 	// a := []Image{i}
 
