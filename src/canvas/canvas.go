@@ -1,23 +1,12 @@
 package canvas
 
-type ImageClip struct {
-	width, height, x, y int32
-}
+import (
+	"fmt"
+)
 
-type Image struct {
-	x, y, width, height, opacity, borderRadius int32
-	imageURL                                   string
-	clip                                       ImageClip
-	Drawer
-}
-type Drawer interface {
-	Draw()
-}
-
-type globalConfig struct{}
-
-func createImage(d []Drawer, g *globalConfig) {
-
+// CreateImage is api entry
+func CreateImage(d []Drawer, g GlobalConfig) {
+	fmt.Sprintf("%s create image", len(d))
 }
 
 // async createImage(params: any, globalConfig?: any) {
