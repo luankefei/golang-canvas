@@ -6,7 +6,7 @@ import (
 
 // CreateImage is api entry
 func CreateImage(d []Drawer, g GlobalConfig) {
-	fmt.Sprintf("%s create image", len(d))
+	fmt.Printf("%d create image", len(d))
 }
 
 // async createImage(params: any, globalConfig?: any) {

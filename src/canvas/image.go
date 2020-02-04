@@ -1,6 +1,10 @@
 package canvas
 
+import (
+	"fmt"
+)
+
 // Draw image
 func (i *Image) Draw() {
-	fmt.printf("%v image draw", i)
+	fmt.Printf("%v image draw", &i)
 }
