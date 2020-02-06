@@ -7,7 +7,7 @@ canvas api demo
 src
 	canvas              绘图主业务逻辑
 	config              配置文件
-	libs                字体加载，数据库连接等
+	libs                字体加载，数据库连接，阿里云等
 	main                项目入口
 	middleware          web框架相关中间件
 	protos              protobuf，预留
