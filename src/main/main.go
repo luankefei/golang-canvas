@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"github.com/luankefei/golang-canvas/routes"
+	"routes"
 
 	"github.com/EDDYCJY/go-gin-example/pkg/setting"
 	"github.com/gin-gonic/gin"
