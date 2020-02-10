@@ -19,3 +19,8 @@ type Image struct {
 	imageURL                                   string
 	clip                                       ImageClip
 }
+
+// Rect is a rectangle in 2D defined by a position and its width and height.
+type Rect struct {
+	X, Y, W, H float64
+}
