@@ -81,6 +81,7 @@ ILine {
 - 规范字体命名
 - 规范log，全链路监控
 - 测试用例
+- 消息队列
 - 定时重启
 - 单机压测数据
 - modern properties(shadow round opacity mask transform)
@@ -96,9 +97,8 @@ ILine {
 
 ### 依赖方案
 
-+ [node-canvas](https://github.com/Automattic/node-canvas)
-+ [Taro](https://github.com/NervJS/taro)
-+ [Flutter](https://github.com/flutter/flutter)
-+ [React Native](https://github.com/facebook/react-native)
++ [gin](https://github.com/gin-gonic/gin)
++ [kafka](https://github.com/NervJS/taro)
++ [canvas](https://github.com/tdewolff/canvas)
 
 
