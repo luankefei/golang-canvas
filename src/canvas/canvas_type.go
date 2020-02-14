@@ -1,7 +1,5 @@
 package canvas
 
-import structpb "github.com/golang/protobuf/ptypes/struct"
-
 // Drawer is general interface
 type Drawer interface {
 	Draw()

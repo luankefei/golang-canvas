@@ -1,20 +1,40 @@
-
 package canvas
 
 import (
 	"fmt"
+	"image/color"
+
+	"github.com/tdewolff/canvas"
 )
 
+// TODO 放函数内部是否更合理
+var fontFamily *canvas.FontFamily
+
 // Draw text
-func (i *Image) Draw() {
+func (i *Text) Draw() {
 	fmt.Printf("%v text draw", &i)
 	testText()
 }
 
+func testLoadFont() {
+	// 从文件加载新字体
+	leMiaoSrc := "../static/HanYiLeMiao_Regular.ttf"
+
+	fontFamily = canvas.NewFontFamily("LeMiao")
+	fontFamily.Use(canvas.CommonLigatures)
+
+	// TODO: 可以用LoadLocalFont
+	if err := fontFamily.LoadFontFile(leMiaoSrc, canvas.FontRegular); err != nil {
+		panic(err)
+	}
+}
+
 func testText() {
+	testLoadFont()
+
 	c := canvas.New(265, 90)
 	ctx := canvas.NewContext(c)
-	draw(ctx)
+	drawText(ctx, 5.0, 80.0, canvas.Left, canvas.Top, 10.0)
 	c.SavePNG("out.png", 5.0)
 }
 
