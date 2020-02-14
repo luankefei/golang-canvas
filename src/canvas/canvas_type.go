@@ -1,5 +1,7 @@
 package canvas
 
+import structpb "github.com/golang/protobuf/ptypes/struct"
+
 // Drawer is general interface
 type Drawer interface {
 	Draw()
@@ -12,6 +14,28 @@ type GlobalConfig struct{}
 type ImageClip struct {
 	width, height, x, y int32
 }
+
+// Text config
+type Text struct {
+	x, y, size, lineHeight, limit     int32
+	align, fontWeight, color, content string
+}
+
+// lineHeight 和 limit 主要用于文字多行需要计算折行的情况
+// 如果文字是居中对齐，x和y值需要传入水平居中的中心点坐标
+// EAlign: left | center | right | justify
+// EFontWeight: bold | regular | normal
+// IText {
+//   x: number
+//   y: number
+//   content: string
+//   color: string
+//   size: number
+//   align?: EAlign
+//   fontWeight?: EFontWeight
+//   lineHeight?: number
+//   limit?: number
+// }
 
 // Image config
 type Image struct {

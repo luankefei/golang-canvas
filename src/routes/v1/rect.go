@@ -28,20 +28,6 @@ func GetRect(ginc *gin.Context) {
 	// k
 	// buf := make([]byte, ctx.Length())
 	c.SavePNG("./out.png", 5.0)
-	f, _ := os.Open("./out.png")
-
-	// Read entire JPG into byte slice.
-	reader := bufio.NewReader(f)
-
-	content, _ := ioutil.ReadAll(reader)
-
-	// Encode as base64.
-	encoded := base64.StdEncoding.EncodeToString(content)
-
-	// reader := bufio.NewReader(img)
-	// reader.Read()
-	// b := base64.StdEncoding.EncodeToString(buf)
-	fmt.Printf("enc=[%s]\n", encoded)
 	html := "data:image/png;base64," + encoded
 	// ginc.PureJSON(http.StatusOK, gin.H{
 	// 	"html": html,
@@ -55,16 +41,18 @@ func GetRect(ginc *gin.Context) {
 	// appG.Response(http.StatusOK, e.SUCCESS, data)
 }
 
-// func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, indent float64) {
-// 	face := fontFamily.Face(6.0, color.Black, canvas.FontRegular, canvas.FontNormal)
-// 	phrase := "测试的文本一，phase"
+func toBase64(filepath string) {
+	f, _ := os.Open(filepath)
 
-// 	text := canvas.NewTextBox(face, phrase, 60.0, 35.0, halign, valign, indent, 0.0)
-// 	rect := text.Bounds()
-// 	rect.Y = 0.0
-// 	rect.H = -35.0
-// 	c.SetFillColor(canvas.Whitesmoke)
-// 	c.DrawPath(x, y, rect.ToPath())
-// 	c.SetFillColor(canvas.Black)
-// 	c.DrawText(x, y, text)
-// }
+	// Read entire JPG into byte slice.
+	reader := bufio.NewReader(f)
+
+	content, _ := ioutil.ReadAll(reader)
+
+	// Encode as base64.
+	encoded := base64.StdEncoding.EncodeToString(content)
+
+	fmt.Printf("enc=[%s]\n", encoded)
+
+	return encoded
+}
