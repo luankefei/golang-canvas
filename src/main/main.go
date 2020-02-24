@@ -15,7 +15,7 @@ import (
 var fontFamily *canvas.FontFamily
 
 func main() {
-	加载本地字体
+	// 从文件加载新字体
 	leMiaoSrc := "../static/HanYiLeMiao_Regular.ttf"
 
 	fontFamily = canvas.NewFontFamily("LeMiao")
