@@ -56,7 +56,7 @@ func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, 
 	// box的宽高 0是auto
 	text := canvas.NewTextBox(face, phrase, 0.0, 0.0, halign, valign, indent, 0.0)
 	rect := text.Bounds()
-	// rect.Y = 0.0
+	rect.Y = 0.0
 	rect.H = -35.0
 	c.SetFillColor(canvas.Whitesmoke)
 	c.DrawPath(x, y, rect.ToPath())

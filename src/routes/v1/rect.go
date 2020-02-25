@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"image/color"
 	"io/ioutil"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -28,11 +27,11 @@ func GetRect(ginc *gin.Context) {
 	// k
 	// buf := make([]byte, ctx.Length())
 	c.SavePNG("./out.png", 5.0)
-	html := "data:image/png;base64," + encoded
+	// var html = "data:image/png;base64," + encoded
 	// ginc.PureJSON(http.StatusOK, gin.H{
 	// 	"html": html,
 	// })
-	ginc.JSON(http.StatusOK, html)
+	// ginc.JSON(http.StatusOK, html)
 	// ginc.HTML(http.StatusOK, html, gin.H{
 	// 	"title": "test go canvas",
 	// })
@@ -41,7 +40,7 @@ func GetRect(ginc *gin.Context) {
 	// appG.Response(http.StatusOK, e.SUCCESS, data)
 }
 
-func toBase64(filepath string) {
+func toBase64(filepath string) string {
 	f, _ := os.Open(filepath)
 
 	// Read entire JPG into byte slice.
