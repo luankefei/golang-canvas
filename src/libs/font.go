@@ -4,13 +4,11 @@ import (
 	"github.com/tdewolff/canvas"
 )
 
-// @see https://github.com/tdewolff/canvas/blob/master/examples/html-canvas/main.go
-func RegisterFont() {
-	family := canvas.NewFontFamily("dejavu-serif")
-	family.LoadFontFile("font/DejaVuSerif.ttf", canvas.FontRegular)
+// LoadFont 从本地文件注册字体
+func LoadFont(filepath string, name string, style canvas.FontStyle) {
+	font := canvas.NewFontFamily(name)
 
-	// size float64, col color.Color, style FontStyle, variant FontVariant, deco ...FontDecorator
-	// face := family.Face(12.0*ptPerMm, canvas.Black, canvas.FontRegular, canvas.FontNormal)
-	// test.Float(t, face.fauxBold, 0.0)
-	// test.T(t, face.boldness(), 400)
+	if err := font.LoadFontFile(filepath, style); err != nil {
+		panic(err)
+	}
 }

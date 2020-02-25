@@ -8,6 +8,7 @@ import (
 
 	"github.com/EDDYCJY/go-gin-example/pkg/setting"
 	"github.com/gin-gonic/gin"
+	"github.com/luankefei/golang-canvas/src/libs"
 
 	"github.com/tdewolff/canvas"
 )
@@ -15,16 +16,7 @@ import (
 var fontFamily *canvas.FontFamily
 
 func main() {
-	// 从文件加载新字体
-	leMiaoSrc := "../static/HanYiLeMiao_Regular.ttf"
-
-	fontFamily = canvas.NewFontFamily("LeMiao")
-	fontFamily.Use(canvas.CommonLigatures)
-
-	// TODO: 可以用LoadLocalFont
-	if err := fontFamily.LoadFontFile(leMiaoSrc, canvas.FontRegular); err != nil {
-		panic(err)
-	}
+	libs.LoadFont("../static/HanYiLeMiao_Regular.ttf", "LeMiao", canvas.FontRegular)
 
 	serve()
 }
