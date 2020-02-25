@@ -1,5 +1,7 @@
 package canvas
 
+import "github.com/tdewolff/canvas"
+
 // Drawer is general interface
 type Drawer interface {
 	Draw()
@@ -45,4 +47,11 @@ type Image struct {
 // Rect is a rectangle in 2D defined by a position and its width and height.
 type Rect struct {
 	X, Y, W, H float64
+}
+
+// Font define
+type Font struct {
+	FileName string           `json:filename`
+	Name     string           `json:name`
+	Style    canvas.FontStyle `json:style`
 }

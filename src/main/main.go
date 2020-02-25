@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"routes"
 
-	"github.com/EDDYCJY/go-gin-example/pkg/setting"
 	"github.com/gin-gonic/gin"
+	"github.com/luankefei/golang-canvas/src/config"
 	"github.com/luankefei/golang-canvas/src/libs"
 
 	"github.com/tdewolff/canvas"
@@ -15,14 +15,21 @@ import (
 
 var fontFamily *canvas.FontFamily
 
+func init() {
+	config.Setup()
+	libs.Setup()
+}
+
 func main() {
+	init()
+
 	libs.LoadFont("../static/HanYiLeMiao_Regular.ttf", "LeMiao", canvas.FontRegular)
 
 	serve()
 }
 
 func serve() {
-	gin.SetMode(setting.ServerSetting.RunMode)
+	gin.SetMode(config.ServerSetting.RunMode)
 
 	// middlewares.Wechat()
 
@@ -38,8 +45,8 @@ func serve() {
 	r.Use(gin.Recovery())
 
 	routersInit := routes.Init(r)
-	readTimeout := setting.ServerSetting.ReadTimeout
-	writeTimeout := setting.ServerSetting.WriteTimeout
+	readTimeout := config.ServerSetting.ReadTimeout
+	writeTimeout := config.ServerSetting.WriteTimeout
 	endPoint := fmt.Sprintf(":%d", 8000)
 	maxHeaderBytes := 1 << 20
 

@@ -30,7 +30,6 @@ func SetupFont() {
 	err := json.Unmarshal(bytes, &conf)
 	fmt.Println("conf:", conf[0].FileName)
 
-	// err := decoder.Decode(&conf)
 	if err != nil {
 		fmt.Println("Error:", err)
 	}

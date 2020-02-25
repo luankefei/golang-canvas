@@ -63,3 +63,24 @@ func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, 
 	c.SetFillColor(canvas.Black)
 	c.DrawText(x, y, text)
 }
+
+// LoadFont 从本地文件注册字体
+func LoadFont(filepath string, name string, style canvas.FontStyle) {
+	font := canvas.NewFontFamily(name)
+
+	if err := font.LoadFontFile(filepath, style); err != nil {
+		panic(err)
+	}
+}
+
+// SetupFont 测试配置文件导入
+// func SetupFont() {
+// 	file, _ := os.Open("../font.json")
+// 	defer file.Close()
+// 	decoder := json.NewDecoder(file)
+// 	conf := configuration{}
+// 	err := decoder.Decode(&conf)
+// 	if err != nil {
+// 		fmt.Println("Error:", err)
+// 	}
+// }
