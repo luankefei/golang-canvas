@@ -7,25 +7,17 @@ import (
 	"routes"
 
 	"github.com/gin-gonic/gin"
+	"github.com/luankefei/golang-canvas/src/canvas"
 	"github.com/luankefei/golang-canvas/src/config"
 	"github.com/luankefei/golang-canvas/src/libs"
-
-	"github.com/tdewolff/canvas"
 )
 
-var fontFamily *canvas.FontFamily
+// var fontFamily *canvas.FontFamily
 
-func init() {
+func setup() {
+	canvas.Setup()
 	config.Setup()
 	libs.Setup()
-}
-
-func main() {
-	init()
-
-	libs.LoadFont("../static/HanYiLeMiao_Regular.ttf", "LeMiao", canvas.FontRegular)
-
-	serve()
 }
 
 func serve() {
@@ -75,4 +67,9 @@ func serve() {
 	//if err != nil {
 	//	log.Printf("Server err: %v", err)
 	//}
+}
+
+func main() {
+	setup()
+	serve()
 }
