@@ -16,10 +16,10 @@ func LoadConfigFromJSON(filepath string, value interface{}) interface{} {
 	bytes, _ := ioutil.ReadAll(file)
 	fmt.Println("bytes", bytes)
 
-	conf := value
+	// conf := value
 
-	err := json.Unmarshal(bytes, &conf)
-	// fmt.Println("conf:", conf[0].FileName)
+	err := json.Unmarshal(bytes, &value)
+	fmt.Println("conf:", value)
 
 	if err != nil {
 		fmt.Println("Error:", err)

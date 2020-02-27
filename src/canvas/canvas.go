@@ -2,7 +2,27 @@ package canvas
 
 import (
 	"fmt"
+
+	"github.com/luankefei/golang-canvas/src/libs"
+	"github.com/tdewolff/canvas"
 )
+
+// Setup 整个绘图模块的初始化
+func Setup() {
+	fonts := make([]canvas.Font, 0)
+	filepath := "../config/font.json"
+	libs.LoadConfigFromJSON(filepath, &fonts)
+
+	fmt.Println("---------- font config list:", fonts)
+
+	for i, v := range fonts {
+		fmt.Println("-- font :", i, v)
+		// log.Println(v)
+		// dec = append(dec, &v)
+	}
+
+	// LoadFont()
+}
 
 // CreateImage is api entry
 func CreateImage(d []Drawer, g GlobalConfig) {
