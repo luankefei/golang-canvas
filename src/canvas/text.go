@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image/color"
 
+	"github.com/luankefei/golang-canvas/src/libs"
 	"github.com/tdewolff/canvas"
 )
 
@@ -13,7 +14,6 @@ var fontFamily *canvas.FontFamily
 // Draw text
 func (i *Text) Draw() {
 	fmt.Printf("%v text draw", &i)
-	// testText()
 }
 
 func testLoadFont() {
@@ -66,9 +66,13 @@ func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, 
 
 // LoadFont 从本地文件注册字体
 func LoadFont(filepath string, name string, style canvas.FontStyle) {
+	fmt.Println("func.LoadFont: ", filepath, name)
 	font := canvas.NewFontFamily(name)
+	if err := libs.DownloadFile(name, filepath); err != nil {
+		panic(err)
+	}
 
-	if err := font.LoadFontFile(filepath, style); err != nil {
+	if err := font.LoadFontFile(name, style); err != nil {
 		panic(err)
 	}
 }

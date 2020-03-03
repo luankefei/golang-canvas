@@ -13,11 +13,7 @@ func Setup() {
 	filepath := "../config/font.json"
 	libs.LoadConfigFromJSON(filepath, &fonts)
 
-	fmt.Println("---------- font config list:", fonts)
-
-	for i, v := range fonts {
-		fmt.Println("-- font :", i, v.Name)
-
+	for _, v := range fonts {
 		// 从配置文件加载新字体
 		LoadFont(v.FileName, v.Name, v.Style)
 	}
