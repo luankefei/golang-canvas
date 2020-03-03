@@ -1,9 +1,9 @@
 package config
 
-import (
-	"testing"
-)
+// import (
+// 	"testing"
+// )
 
-func TestSetupFont(t *testing.T) {
-	SetupFont()
-}
+// func TestSetupFont(t *testing.T) {
+// 	SetupFont()
+// }

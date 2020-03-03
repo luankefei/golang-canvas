@@ -15,12 +15,13 @@ import (
 // var fontFamily *canvas.FontFamily
 
 func setup() {
+	// load config from json & fonts setup
 	canvas.Setup()
 
-	// load config from json & fonts setup
+	// config init
 	config.Setup()
 
-	// TODO
+	// TODO: empty
 	libs.Setup()
 }
 

@@ -13,7 +13,7 @@ var fontFamily *canvas.FontFamily
 // Draw text
 func (i *Text) Draw() {
 	fmt.Printf("%v text draw", &i)
-	testText()
+	// testText()
 }
 
 func testLoadFont() {
@@ -29,24 +29,24 @@ func testLoadFont() {
 	}
 }
 
-func testText() {
-	testLoadFont()
+// func testText() {
+// 	testLoadFont()
 
-	c := canvas.New(1000, 1000)
-	ctx := canvas.NewContext(c)
+// 	c := canvas.New(1000, 1000)
+// 	ctx := canvas.NewContext(c)
 
-	matrix := canvas.Identity.Translate(0, 500)
-	// .Rotate(180).ReflectY().
+// 	matrix := canvas.Identity.Translate(0, 500)
+// 	// .Rotate(180).ReflectY().
 
-	ctx.SetView(matrix)
-	// ctx.ComposeView(matrix)
-	// ctx.ResetView()
+// 	ctx.SetView(matrix)
+// 	// ctx.ComposeView(matrix)
+// 	// ctx.ResetView()
 
-	drawText(ctx, 0.0, 0.0, canvas.Left, canvas.Top, 0.0)
+// 	drawText(ctx, 0.0, 0.0, canvas.Left, canvas.Top, 0.0)
 
-	// savePng的第二个参数是canvas导出时放大的倍数
-	c.SavePNG("out.png", 1.0)
-}
+// 	// savePng的第二个参数是canvas导出时放大的倍数
+// 	c.SavePNG("out.png", 1.0)
+// }
 
 func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, indent float64) {
 	face := fontFamily.Face(20.0, color.Black, canvas.FontRegular, canvas.FontNormal)

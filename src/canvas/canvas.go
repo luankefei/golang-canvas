@@ -17,11 +17,10 @@ func Setup() {
 
 	for i, v := range fonts {
 		fmt.Println("-- font :", i, v.Name)
-		// log.Println(v)
-		// dec = append(dec, &v)
-	}
 
-	// LoadFont()
+		// 从配置文件加载新字体
+		LoadFont(v.FileName, v.Name, v.Style)
+	}
 }
 
 // CreateImage is api entry
