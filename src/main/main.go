@@ -16,7 +16,11 @@ import (
 
 func setup() {
 	canvas.Setup()
+
+	// load config from json & fonts setup
 	config.Setup()
+
+	// TODO
 	libs.Setup()
 }
 

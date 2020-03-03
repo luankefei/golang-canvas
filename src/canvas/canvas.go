@@ -4,19 +4,19 @@ import (
 	"fmt"
 
 	"github.com/luankefei/golang-canvas/src/libs"
-	"github.com/tdewolff/canvas"
 )
 
 // Setup 整个绘图模块的初始化
+// TODO
 func Setup() {
-	fonts := make([]canvas.Font, 0)
+	fonts := make([]Font, 0)
 	filepath := "../config/font.json"
 	libs.LoadConfigFromJSON(filepath, &fonts)
 
 	fmt.Println("---------- font config list:", fonts)
 
 	for i, v := range fonts {
-		fmt.Println("-- font :", i, v)
+		fmt.Println("-- font :", i, v.Name)
 		// log.Println(v)
 		// dec = append(dec, &v)
 	}
