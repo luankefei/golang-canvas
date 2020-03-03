@@ -5,11 +5,26 @@ import (
 	"fmt"
 	"image/color"
 	"log"
+	"strconv"
+	"strings"
 )
 
-// func ConvertStringToColor(s string) color.RGBA {
-// 	strings.Split(s, ",")
-// }
+// RGBAToColor convert rgba string like rgba(255, 255, 255, 1) to color.RGBA
+func RGBAToColor(s string) color.RGBA {
+	var t = strings.Split(s, ",")
+	var t2 = []byte{}
+
+	for _, i := range t {
+		j, err := strconv.Atoi(i)
+		if err != nil {
+			panic(err)
+		}
+		t2 = append(t2, byte(j))
+	}
+	fmt.Println(t2)
+
+	return color.RGBA{t2[0], t2[1], t2[2], t2[3]}
+}
 
 // HexToColor convert hex string like #ffffff to color.RGBA
 func HexToColor(h string) color.RGBA {
