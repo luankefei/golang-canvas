@@ -31,7 +31,9 @@ func RGBAToColor(s string) color.RGBA {
 // HexToColor convert hex string like #ffffff to color.RGBA
 func HexToColor(h string) color.RGBA {
 	// drop '#' substring
-	colorStr := h[:1]
+	colorStr := h[1:]
+
+	fmt.Println("colorStr", colorStr)
 
 	colorStr, err := normalize(colorStr)
 	if err != nil {
@@ -45,7 +47,9 @@ func HexToColor(h string) color.RGBA {
 
 	color := color.RGBA{b[0], b[1], b[2], b[3]}
 
-	fmt.Println(color) // Output: {16 32 48 255}
+	return color
+
+	// fmt.Println(color) // Output: {16 32 48 255}
 }
 
 func normalize(colorStr string) (string, error) {

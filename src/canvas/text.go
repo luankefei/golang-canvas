@@ -27,7 +27,7 @@ func (t *Text) Draw() {
 	// rect.Y = 0.0
 	// rect.H = -35.0
 
-	fmt.Printf("text draw %v", t, text)
+	fmt.Println("text draw ", t, text)
 	// c := canvas.New(1000, 1000)
 	// ctx := canvas.NewContext(c)
 	// c.SetFillColor(canvas.Whitesmoke)
