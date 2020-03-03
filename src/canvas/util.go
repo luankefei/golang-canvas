@@ -11,8 +11,10 @@ import (
 
 // RGBAToColor convert rgba string like rgba(255, 255, 255, 1) to color.RGBA
 func RGBAToColor(s string) color.RGBA {
-	var t = strings.Split(s, ",")
 	var t2 = []byte{}
+
+	// drop "rgba(" and ")"
+	t := strings.Split(s[5:len(s)-1], ",")
 
 	for _, i := range t {
 		j, err := strconv.Atoi(i)
