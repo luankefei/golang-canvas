@@ -13,20 +13,7 @@ var fontFamily *canvas.FontFamily
 
 // Draw text
 func (i *Text) Draw() {
-	fmt.Printf("%v text draw", &i)
-}
-
-func testLoadFont() {
-	// 从文件加载新字体
-	leMiaoSrc := "../static/HanYiLeMiao_Regular.ttf"
-
-	fontFamily = canvas.NewFontFamily("LeMiao")
-	fontFamily.Use(canvas.CommonLigatures)
-
-	// TODO: 可以用LoadLocalFont
-	if err := fontFamily.LoadFontFile(leMiaoSrc, canvas.FontRegular); err != nil {
-		panic(err)
-	}
+	fmt.Printf("text draw %v", i)
 }
 
 func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, indent float64) {
@@ -59,8 +46,6 @@ func LoadFont(filepath string, name string, style canvas.FontStyle) {
 }
 
 // func testText() {
-// 	testLoadFont()
-
 // 	c := canvas.New(1000, 1000)
 // 	ctx := canvas.NewContext(c)
 

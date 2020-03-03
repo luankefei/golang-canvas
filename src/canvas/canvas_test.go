@@ -19,7 +19,7 @@ func TestCreateImage(t *testing.T) {
 }
 
 // 测试文字
-func TestCreateText(t *testing.T) {
+func TestDrawText(t *testing.T) {
 	// var data []Drawer
 
 	text := Text{
