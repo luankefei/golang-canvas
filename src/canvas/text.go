@@ -12,8 +12,28 @@ import (
 var fontFamily *canvas.FontFamily
 
 // Draw text
-func (i *Text) Draw() {
-	fmt.Printf("text draw %v", i)
+func (t *Text) Draw() {
+
+	// TODO: color is not support HEX string, using RGBA instead
+	color := HexToColor(t.Color)
+	content := t.Content
+	indent := float64(0)
+	lineStretch := 0.0
+	face := fontFamily.Face(t.Size, color, canvas.FontRegular, canvas.FontNormal)
+
+	// box的宽高 0是auto
+	text := canvas.NewTextBox(face, content, 0.0, 0.0, canvas.Left, canvas.Top, indent, lineStretch)
+	// rect := text.Bounds()
+	// rect.Y = 0.0
+	// rect.H = -35.0
+
+	fmt.Printf("text draw %v", t, text)
+	// c := canvas.New(1000, 1000)
+	// ctx := canvas.NewContext(c)
+	// c.SetFillColor(canvas.Whitesmoke)
+	// c.DrawPath(x, y, rect.ToPath())
+	// c.SetFillColor(canvas.Black)
+	// c.DrawText(x, y, text)
 }
 
 func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, indent float64) {
