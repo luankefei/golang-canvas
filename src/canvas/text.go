@@ -29,25 +29,6 @@ func testLoadFont() {
 	}
 }
 
-// func testText() {
-// 	testLoadFont()
-
-// 	c := canvas.New(1000, 1000)
-// 	ctx := canvas.NewContext(c)
-
-// 	matrix := canvas.Identity.Translate(0, 500)
-// 	// .Rotate(180).ReflectY().
-
-// 	ctx.SetView(matrix)
-// 	// ctx.ComposeView(matrix)
-// 	// ctx.ResetView()
-
-// 	drawText(ctx, 0.0, 0.0, canvas.Left, canvas.Top, 0.0)
-
-// 	// savePng的第二个参数是canvas导出时放大的倍数
-// 	c.SavePNG("out.png", 1.0)
-// }
-
 func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, indent float64) {
 	face := fontFamily.Face(20.0, color.Black, canvas.FontRegular, canvas.FontNormal)
 	// phrase := "测试的文本一，phase,测试的文本一，phase,测试的文本一，phase,测试的文本一，phase, 测试的文本一，phase,测试的文本一，phase,测试的文本一，phase"
@@ -77,14 +58,21 @@ func LoadFont(filepath string, name string, style canvas.FontStyle) {
 	}
 }
 
-// SetupFont 测试配置文件导入
-// func SetupFont() {
-// 	file, _ := os.Open("../font.json")
-// 	defer file.Close()
-// 	decoder := json.NewDecoder(file)
-// 	conf := configuration{}
-// 	err := decoder.Decode(&conf)
-// 	if err != nil {
-// 		fmt.Println("Error:", err)
-// 	}
+// func testText() {
+// 	testLoadFont()
+
+// 	c := canvas.New(1000, 1000)
+// 	ctx := canvas.NewContext(c)
+
+// 	matrix := canvas.Identity.Translate(0, 500)
+// 	// .Rotate(180).ReflectY().
+
+// 	ctx.SetView(matrix)
+// 	// ctx.ComposeView(matrix)
+// 	// ctx.ResetView()
+
+// 	drawText(ctx, 0.0, 0.0, canvas.Left, canvas.Top, 0.0)
+
+// 	// savePng的第二个参数是canvas导出时放大的倍数
+// 	c.SavePNG("out.png", 1.0)
 // }
