@@ -56,7 +56,9 @@ func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, 
 func LoadFont(filepath string, name string, style canvas.FontStyle) {
 	fmt.Println("func.LoadFont: ", filepath, name)
 	font := canvas.NewFontFamily(name)
-	if err := libs.DownloadFile(name, filepath); err != nil {
+
+	// TODO: 这里将字体下载到本地 gitignore
+	if err := libs.DownloadFile("_font_"+name, filepath); err != nil {
 		panic(err)
 	}
 
