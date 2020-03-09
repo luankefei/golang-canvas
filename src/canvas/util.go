@@ -29,8 +29,11 @@ func RGBAToColor(s string) color.RGBA {
 }
 
 // HexToColor convert hex string like #ffffff to color.RGBA
-// TODO: 需要自动补全最后两位
 func HexToColor(h string) color.RGBA {
+	// TODO: 需要自动补全最后两位
+	if len(h) == 7 {
+		h = h + "ff"
+	}
 	// drop '#' substring
 	colorStr := h[1:]
 

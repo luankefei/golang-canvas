@@ -9,6 +9,7 @@ import (
 // Setup 整个绘图模块的初始化
 // TODO
 func Setup() {
+	libs.Setup()
 	fonts := make([]Font, 0)
 	filepath := "../config/font.json"
 	libs.LoadConfigFromJSON(filepath, &fonts)
