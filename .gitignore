@@ -3,4 +3,5 @@
 pkg/
 vendor/
 logs/
+_font_*
 

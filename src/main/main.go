@@ -9,20 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/luankefei/golang-canvas/src/canvas"
 	"github.com/luankefei/golang-canvas/src/config"
-	"github.com/luankefei/golang-canvas/src/libs"
 )
 
 // var fontFamily *canvas.FontFamily
 
 func setup() {
+	// // TODO: empty
+	// libs.Setup()
+
 	// load config from json & fonts setup
 	canvas.Setup()
 
 	// config init
 	config.Setup()
-
-	// TODO: empty
-	libs.Setup()
 }
 
 func serve() {
