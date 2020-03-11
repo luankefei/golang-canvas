@@ -7,10 +7,6 @@ import (
 	"github.com/tdewolff/canvas"
 )
 
-// type Canvas struct {
-// 	*canvas.Canvas
-// }
-
 // Canvas is alias of *canvas.Canvas
 type Canvas struct {
 	*canvas.Canvas
@@ -19,30 +15,41 @@ type Canvas struct {
 // Draw canvas.draw
 func (c *Canvas) Draw() {
 	fmt.Println("canvas_draw", c)
-}
 
-// Setup 整个绘图模块的初始化
-// TODO
-func Setup() {
-	libs.Setup()
-	fonts := make([]Font, 0)
-	filepath := "../config/font.json"
-	libs.LoadConfigFromJSON(filepath, &fonts)
-
-	for _, v := range fonts {
-		// 从配置文件加载新字体
-		LoadFont(v.FileName, v.Name, v.Style)
+	text := Text{
+		X:          50,
+		Y:          50,
+		Size:       20,
+		LineHeight: 40,
+		Color:      "#000000",
+		Content:    "测试的文字，我爱北京天安门。索尼大法好",
+		FontStyle:  400,
+		FontFamily: "PingFang",
 	}
+
+	ctx := canvas.NewContext(c)
+	text.Draw(ctx)
 }
 
 // CreateImage is api entry
 func CreateImage(d []Drawer, g GlobalConfig) {
-	c := Canvas{canvas.New(750, 750)}
-	ctx := canvas.NewContext(c)
+	// TODO: 临时测试代码
+	Setup()
 
+	c := Canvas{canvas.New(750, 750)}
 	c.Draw()
 
-	fmt.Println("create image", len(d), ctx)
+	// // 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
+	c.SavePNG("out.png", 1.0)
+
+	fmt.Println("create image", len(d), g)
+}
+
+// Setup 整个绘图模块的初始化
+func Setup() {
+	libs.Setup()
+
+	InitFont()
 }
 
 // async createImage(params: any, globalConfig?: any) {

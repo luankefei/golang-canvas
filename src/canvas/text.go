@@ -12,7 +12,7 @@ import (
 var fontFamily map[string]*canvas.FontFamily
 
 // Draw text
-func (t *Text) Draw() {
+func (t *Text) Draw(c *canvas.Context) {
 	// TODO: color is not support HEX string, using RGBA instead
 	color := HexToColor(t.Color)
 	content := t.Content
@@ -24,17 +24,13 @@ func (t *Text) Draw() {
 	fontKey := fmt.Sprintf("_font_%s_%d", t.FontFamily, t.FontStyle)
 	face := fontFamily[fontKey].Face(t.Size, color, t.FontStyle, canvas.FontNormal)
 
-	c := canvas.New(750, 750)
-	ctx := canvas.NewContext(c)
+	// c := canvas.New(750, 750)
+	// ctx := canvas.NewContext(c)
 	// ctx.SetView(canvas.Identity.Translate(0.0, 0.0))
 	text := canvas.NewTextBox(face, content, 0.0, 0.0, canvas.Left, canvas.Top, indent, lineStretch)
 	fmt.Println("text draw ", t.Size, content, indent, lineStretch, face)
-	ctx.DrawText(t.X, t.Y, text)
-
-	ctx.SetFillColor(color)
-
-	// 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
-	c.SavePNG("out.png", 1.0)
+	c.DrawText(t.X, t.Y, text)
+	c.SetFillColor(color)
 }
 
 // func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, indent float64) {
@@ -65,8 +61,24 @@ func LoadFont(filepath string, name string, style canvas.FontStyle) {
 		panic(err)
 	}
 
-	if err := fontFamily[name].LoadFontFile(fontKey, style); err != nil {
+	// loads a font from a file.
+	if err := fontFamily[fontKey].LoadFontFile(fontKey, style); err != nil {
 		panic(err)
+	}
+}
+
+// InitFont 初始化字体的入口, 由canvas.Setup函数调用
+func InitFont() {
+	fonts := make([]Font, 0)
+	filepath := "../config/font.json"
+	libs.LoadConfigFromJSON(filepath, &fonts)
+
+	// 初始化fontFamily
+	fontFamily = make(map[string]*canvas.FontFamily, len(fonts))
+
+	for _, v := range fonts {
+		// 从配置文件加载新字体
+		LoadFont(v.FileName, v.Name, v.Style)
 	}
 }
 
