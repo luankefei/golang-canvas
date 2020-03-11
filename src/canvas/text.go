@@ -9,7 +9,7 @@ import (
 )
 
 // TODO 放函数内部是否更合理
-var fontFamily *canvas.FontFamily
+var fontFamily map[string]*canvas.FontFamily
 
 // Draw text
 func (t *Text) Draw() {
@@ -21,7 +21,8 @@ func (t *Text) Draw() {
 
 	fmt.Println("Draw color", color)
 	// TODO: fontFamily依赖loadFont的加载，理论上只需要加载一次，多字体可以实现并存
-	face := fontFamily.Face(t.Size, color, t.FontStyle, canvas.FontNormal)
+	fontKey := fmt.Sprintf("_font_%s_%d", t.FontFamily, t.FontStyle)
+	face := fontFamily[fontKey].Face(t.Size, color, t.FontStyle, canvas.FontNormal)
 
 	// box的宽高 0是auto
 	// c := canvas.New(265, 90)
@@ -62,15 +63,17 @@ func (t *Text) Draw() {
 
 // LoadFont 从本地文件注册字体
 func LoadFont(filepath string, name string, style canvas.FontStyle) {
-	fmt.Println("func.LoadFont: ", filepath, name)
-	fontFamily = canvas.NewFontFamily(name)
+	fontKey := fmt.Sprintf("_font_%s_%s", name, style)
+	fontFamily[fontKey] = canvas.NewFontFamily(name)
+
+	fmt.Println("func.LoadFont: ", filepath, name, fontKey)
 
 	// TODO: 这里将字体下载到本地 gitignore
-	if err := libs.DownloadFile("_font_"+name, filepath); err != nil {
+	if err := libs.DownloadFile(fontKey, filepath); err != nil {
 		panic(err)
 	}
 
-	if err := fontFamily.LoadFontFile("_font_"+name, style); err != nil {
+	if err := fontFamily[name].LoadFontFile(fontKey, style); err != nil {
 		panic(err)
 	}
 }

@@ -39,6 +39,7 @@ func TestDrawText(t *testing.T) {
 		Color:      "#000000",
 		Content:    "测试的文字，我爱北京天安门",
 		FontStyle:  400,
+		FontFamily: "PingFang",
 	}
 
 	// data = append(data, &text)
