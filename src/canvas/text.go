@@ -13,7 +13,6 @@ var fontFamily *canvas.FontFamily
 
 // Draw text
 func (t *Text) Draw() {
-
 	// TODO: color is not support HEX string, using RGBA instead
 	color := HexToColor(t.Color)
 	content := t.Content
@@ -32,22 +31,17 @@ func (t *Text) Draw() {
 	// rect.Y = 0.0
 	// rect.H = -35.0
 
-	c := canvas.New(500, 300)
+	c := canvas.New(750, 750)
 	ctx := canvas.NewContext(c)
 	// ctx.SetView(canvas.Identity.Translate(0.0, 0.0))
 	text := canvas.NewTextBox(face, content, 0.0, 0.0, canvas.Left, canvas.Top, indent, lineStretch)
 	fmt.Println("text draw ", t.Size, content, indent, lineStretch, face)
-	rect := text.Bounds()
-	rect.Y = 0.0
-	rect.H = -35.0
-	ctx.SetFillColor(canvas.Whitesmoke)
-	ctx.DrawPath(t.X, t.Y, rect.ToPath())
 	ctx.DrawText(t.X, t.Y, text)
 
 	ctx.SetFillColor(color)
 
 	// 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
-	c.SavePNG("out.png", 3.0)
+	c.SavePNG("out.png", 1.0)
 }
 
 // func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, indent float64) {
@@ -97,3 +91,9 @@ func LoadFont(filepath string, name string, style canvas.FontStyle) {
 // 	// savePng的第二个参数是canvas导出时放大的倍数
 // 	c.SavePNG("out.png", 1.0)
 // }
+
+// rect := text.Bounds()
+// rect.Y = 0.0
+// rect.H = -35.0
+// ctx.SetFillColor(canvas.Whitesmoke)
+// ctx.DrawPath(t.X, t.Y, rect.ToPath())
