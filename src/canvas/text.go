@@ -24,14 +24,6 @@ func (t *Text) Draw() {
 	fontKey := fmt.Sprintf("_font_%s_%d", t.FontFamily, t.FontStyle)
 	face := fontFamily[fontKey].Face(t.Size, color, t.FontStyle, canvas.FontNormal)
 
-	// box的宽高 0是auto
-	// c := canvas.New(265, 90)
-	// ctx := canvas.NewContext(c)
-
-	// rect := text.Bounds()
-	// rect.Y = 0.0
-	// rect.H = -35.0
-
 	c := canvas.New(750, 750)
 	ctx := canvas.NewContext(c)
 	// ctx.SetView(canvas.Identity.Translate(0.0, 0.0))
@@ -63,7 +55,7 @@ func (t *Text) Draw() {
 
 // LoadFont 从本地文件注册字体
 func LoadFont(filepath string, name string, style canvas.FontStyle) {
-	fontKey := fmt.Sprintf("_font_%s_%s", name, style)
+	fontKey := fmt.Sprintf("_font_%s_%d", name, style)
 	fontFamily[fontKey] = canvas.NewFontFamily(name)
 
 	fmt.Println("func.LoadFont: ", filepath, name, fontKey)

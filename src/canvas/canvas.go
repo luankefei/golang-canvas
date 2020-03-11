@@ -4,7 +4,22 @@ import (
 	"fmt"
 
 	"github.com/luankefei/golang-canvas/src/libs"
+	"github.com/tdewolff/canvas"
 )
+
+// type Canvas struct {
+// 	*canvas.Canvas
+// }
+
+// Canvas is alias of *canvas.Canvas
+type Canvas struct {
+	*canvas.Canvas
+}
+
+// Draw canvas.draw
+func (c *Canvas) Draw() {
+	fmt.Println("canvas_draw", c)
+}
 
 // Setup 整个绘图模块的初始化
 // TODO
@@ -22,7 +37,12 @@ func Setup() {
 
 // CreateImage is api entry
 func CreateImage(d []Drawer, g GlobalConfig) {
-	fmt.Printf("%d create image", len(d))
+	c := Canvas{canvas.New(750, 750)}
+	ctx := canvas.NewContext(c)
+
+	c.Draw()
+
+	fmt.Println("create image", len(d), ctx)
 }
 
 // async createImage(params: any, globalConfig?: any) {

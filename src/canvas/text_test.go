@@ -1,11 +1,11 @@
 package canvas
 
-import (
-	"fmt"
-	"os"
-	"testing"
-	// "github.com/tdewolff/canvas"
-)
+// import (
+// 	"fmt"
+// 	"os"
+// 	"testing"
+// 	// "github.com/tdewolff/canvas"
+// )
 
 // func TestDrawText(t *testing.T) {
 // 	c := canvas.New(1000, 1000)
@@ -25,25 +25,36 @@ import (
 // }
 
 // 测试文字
-func TestDrawText(t *testing.T) {
-	// var data []Drawer
-	d, _ := os.Getwd()
-	fmt.Println("location", d)
-	Setup()
+// func TestDrawText(t *testing.T) {
+// 	// var data []Drawer
+// 	d, _ := os.Getwd()
+// 	fmt.Println("location", d)
+// 	Setup()
 
-	text := Text{
-		X:          50,
-		Y:          50,
-		Size:       20,
-		LineHeight: 40,
-		Color:      "#000000",
-		Content:    "测试的文字，我爱北京天安门",
-		FontStyle:  400,
-		FontFamily: "PingFang",
-	}
+// 	text := Text{
+// 		X:          50,
+// 		Y:          50,
+// 		Size:       20,
+// 		LineHeight: 40,
+// 		Color:      "#000000",
+// 		Content:    "测试的文字，我爱北京天安门",
+// 		FontStyle:  400,
+// 		FontFamily: "PingFang",
+// 	}
 
-	// data = append(data, &text)
-	// global := GlobalConfig{}
-	// data[0].Draw()
-	text.Draw()
-}
+// 	// data = append(data, &text)
+// 	// global := GlobalConfig{}
+// 	// data[0].Draw()
+// 	text.Draw()
+// }
+
+// type MainCanvas{
+// 	Canvas *canvas
+// 	Text text[]
+// 	Img img[]
+
+// }
+
+// func(this *MainCanvas) draw(){
+// 	this.canvas.draws(tHIS.YEXT)
+// }
