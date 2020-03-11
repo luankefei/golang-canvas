@@ -22,6 +22,7 @@ func (t *Text) Draw(c *canvas.Context) {
 	// lineStretch := (t.LineHeight / t.Size)
 	// limit := float64(10)
 	limit := float64(t.Limit)
+	align := t.Align
 
 	// TODO: fontFamily依赖loadFont的加载，理论上只需要加载一次，多字体可以实现并存
 	fontKey := fmt.Sprintf("_font_%s_%d", t.FontFamily, t.FontStyle)
@@ -38,11 +39,12 @@ func (t *Text) Draw(c *canvas.Context) {
 	text := canvas.NewTextBox(
 		face,
 		content,
-		317,
+		limit,
 		500,
 		// limit,
 		// 0,
-		canvas.Left,
+		align,
+		// align,
 		canvas.Top,
 		indent,
 		lineStretch,

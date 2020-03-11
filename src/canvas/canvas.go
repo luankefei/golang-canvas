@@ -79,11 +79,42 @@ func (c *Canvas) Draw() {
 		Size:       24,
 		LineHeight: 30,
 		Color:      "#000000",
-		Content:    "2424160人正在参与，比90%的人起的早",
+		Content:    "2424160人正在参与 比90%的人起的早",
 		FontStyle:  400,
 		FontFamily: "PingFang",
+		Limit:      230,
+	}
+
+	text.Draw(ctx)
+
+	text = Text{
+		X:          652,
+		Y:          24,
+		Size:       50,
+		LineHeight: 50,
+		Color:      "#000000",
+		Content:    "08",
+		FontStyle:  700,
+		FontFamily: "PingFang",
 		// Limit:      217,
-		Limit: 57,
+		Limit: 73,
+		Align: 1,
+	}
+
+	text.Draw(ctx)
+
+	text = Text{
+		X:          652,
+		Y:          83,
+		Size:       20,
+		LineHeight: 20,
+		Color:      "#000000",
+		Content:    "2019.07",
+		FontStyle:  700,
+		FontFamily: "PingFang",
+		Align:      1,
+		// Limit:      217,
+		Limit: 73,
 	}
 
 	text.Draw(ctx)

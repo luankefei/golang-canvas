@@ -17,9 +17,10 @@ type ImageClip struct {
 
 // Text config
 type Text struct {
-	Size, X, Y, LineHeight, Limit     float64
-	Align, Color, Content, FontFamily string
-	FontStyle                         canvas.FontStyle
+	Align                         canvas.TextAlign
+	Size, X, Y, LineHeight, Limit float64
+	Color, Content, FontFamily    string
+	FontStyle                     canvas.FontStyle
 }
 
 // lineHeight 和 limit 主要用于文字多行需要计算折行的情况
