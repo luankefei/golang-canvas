@@ -10,6 +10,7 @@ import (
 
 // TODO 放函数内部是否更合理
 var fontFamily map[string]*canvas.FontFamily
+var ptPerMm = 2.8346456692913384
 
 // Draw text
 func (t *Text) Draw(c *canvas.Context) {
@@ -18,18 +19,39 @@ func (t *Text) Draw(c *canvas.Context) {
 	content := t.Content
 	indent := float64(0)
 	lineStretch := 0.0
+	// lineStretch := (t.LineHeight / t.Size)
+	// limit := float64(10)
+	limit := float64(t.Limit)
 
-	fmt.Println("Draw color", color)
 	// TODO: fontFamily依赖loadFont的加载，理论上只需要加载一次，多字体可以实现并存
 	fontKey := fmt.Sprintf("_font_%s_%d", t.FontFamily, t.FontStyle)
-	face := fontFamily[fontKey].Face(t.Size, color, t.FontStyle, canvas.FontNormal)
 
+	// size float64, col color.Color, style FontStyle, variant FontVariant
+	// canvas.FontNormal
+	face := fontFamily[fontKey].Face(t.Size*ptPerMm, color, t.FontStyle, canvas.FontNormal)
+	// face := fontFamily[fontKey].Face(t.Size, color, t.FontStyle, canvas.FontNormal)
+
+	fmt.Println("line_break", limit, lineStretch)
 	// c := canvas.New(750, 750)
 	// ctx := canvas.NewContext(c)
 	// ctx.SetView(canvas.Identity.Translate(0.0, 0.0))
-	text := canvas.NewTextBox(face, content, 0.0, 0.0, canvas.Left, canvas.Top, indent, lineStretch)
-	fmt.Println("text draw ", t.Size, content, indent, lineStretch, face)
-	c.DrawText(t.X, t.Y, text)
+	text := canvas.NewTextBox(
+		face,
+		content,
+		317,
+		500,
+		// limit,
+		// 0,
+		canvas.Left,
+		canvas.Top,
+		indent,
+		lineStretch,
+	)
+
+	// text2 := canvas.NewTextLine(face, content, canvas.Left)
+	fmt.Println("text draw ", t.Size, content, indent, lineStretch)
+	c.DrawText(t.X, t.Y*-1, text)
+	// c.DrawText(t.X, t.Y, text2)
 	c.SetFillColor(color)
 }
 

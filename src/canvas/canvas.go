@@ -16,18 +16,76 @@ type Canvas struct {
 func (c *Canvas) Draw() {
 	fmt.Println("canvas_draw", c)
 
+	ctx := canvas.NewContext(c)
+
+	matrix := canvas.Identity.Translate(0, c.H)
+	ctx.SetView(matrix)
+
 	text := Text{
-		X:          50,
-		Y:          50,
-		Size:       20,
-		LineHeight: 40,
+		X:          30,
+		Y:          193,
+		Size:       24,
+		LineHeight: 24,
 		Color:      "#000000",
-		Content:    "测试的文字，我爱北京天安门。索尼大法好",
+		Content:    "连续早起",
 		FontStyle:  400,
 		FontFamily: "PingFang",
 	}
 
-	ctx := canvas.NewContext(c)
+	text.Draw(ctx)
+
+	text = Text{
+		X:          30,
+		Y:          227,
+		Size:       66,
+		LineHeight: 66,
+		Color:      "#000000",
+		Content:    "999",
+		FontStyle:  700,
+		FontFamily: "PingFang",
+	}
+
+	text.Draw(ctx)
+
+	text = Text{
+		X:          30,
+		Y:          323,
+		Size:       24,
+		LineHeight: 24,
+		Color:      "#000000",
+		Content:    "今日早起",
+		FontStyle:  400,
+		FontFamily: "PingFang",
+	}
+
+	text.Draw(ctx)
+
+	text = Text{
+		X:          30,
+		Y:          357,
+		Size:       66,
+		LineHeight: 66,
+		Color:      "#000000",
+		Content:    "06:00",
+		FontStyle:  700,
+		FontFamily: "PingFang",
+	}
+
+	text.Draw(ctx)
+
+	text = Text{
+		X:          30,
+		Y:          466,
+		Size:       24,
+		LineHeight: 30,
+		Color:      "#000000",
+		Content:    "2424160人正在参与，比90%的人起的早",
+		FontStyle:  400,
+		FontFamily: "PingFang",
+		// Limit:      217,
+		Limit: 57,
+	}
+
 	text.Draw(ctx)
 }
 
@@ -39,7 +97,7 @@ func CreateImage(d []Drawer, g GlobalConfig) {
 	c := Canvas{canvas.New(750, 750)}
 	c.Draw()
 
-	// // 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
+	// 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
 	c.SavePNG("out.png", 1.0)
 
 	fmt.Println("create image", len(d), g)

@@ -17,8 +17,7 @@ type ImageClip struct {
 
 // Text config
 type Text struct {
-	Size, X, Y                        float64
-	LineHeight, Limit                 int32
+	Size, X, Y, LineHeight, Limit     float64
 	Align, Color, Content, FontFamily string
 	FontStyle                         canvas.FontStyle
 }
