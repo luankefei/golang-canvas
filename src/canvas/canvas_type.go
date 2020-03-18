@@ -4,7 +4,7 @@ import "github.com/tdewolff/canvas"
 
 // Drawer is general interface
 type Drawer interface {
-	Draw()
+	Draw(c *canvas.Context)
 }
 
 // GlobalConfig type

@@ -60,3 +60,8 @@ func normalize(colorStr string) (string, error) {
 	// left as an exercise for the reader
 	return colorStr, nil
 }
+
+// func (b *FetchPic) fetcheImage(traceId string, businessName string, image *draw_pb.Image,
+// 	image_key string) error {
+
+// }

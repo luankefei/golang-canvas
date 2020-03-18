@@ -2,10 +2,12 @@ package canvas
 
 import (
 	"fmt"
+
+	"github.com/tdewolff/canvas"
 )
 
 // Draw image
-func (i *Image) Draw() {
+func (i *Image) Draw(c *canvas.Context) {
 	fmt.Printf("%v image draw", &i)
 }
 
