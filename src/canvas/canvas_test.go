@@ -7,6 +7,9 @@ import (
 
 // 测试画图主入口的参数传入
 func TestCreateImage(t *testing.T) {
+	// TODO: 临时测试代码
+	Setup()
+
 	var data []Drawer
 
 	i := Image{

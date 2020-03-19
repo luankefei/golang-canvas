@@ -31,7 +31,10 @@ func (t *Text) Draw(c *canvas.Context) {
 	// canvas.FontNormal
 	face := fontFamily[fontKey].Face(t.Size*ptPerMm, color, t.FontStyle, canvas.FontNormal)
 	// face := fontFamily[fontKey].Face(t.Size, color, t.FontStyle, canvas.FontNormal)
+	metrics := face.Metrics()
+	diff := metrics.Ascent - metrics.CapHeight
 
+	fmt.Println("metrics", metrics.Ascent, metrics.CapHeight, diff)
 	fmt.Println("line_break", limit, lineStretch)
 	// c := canvas.New(750, 750)
 	// ctx := canvas.NewContext(c)
@@ -52,7 +55,7 @@ func (t *Text) Draw(c *canvas.Context) {
 
 	// text2 := canvas.NewTextLine(face, content, canvas.Left)
 	fmt.Println("text draw ", t.Size, content, indent, lineStretch)
-	c.DrawText(t.X, t.Y*-1, text)
+	c.DrawText(t.X, t.Y*-1+diff, text)
 	// c.DrawText(t.X, t.Y, text2)
 	c.SetFillColor(color)
 }

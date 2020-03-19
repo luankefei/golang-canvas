@@ -1,12 +1,7 @@
 package v1
 
 import (
-	"bufio"
-	"encoding/base64"
-	"fmt"
 	"image/color"
-	"io/ioutil"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/tdewolff/canvas"
@@ -38,20 +33,4 @@ func GetRect(ginc *gin.Context) {
 
 	// appG := app.Gin{C: ginc}
 	// appG.Response(http.StatusOK, e.SUCCESS, data)
-}
-
-func toBase64(filepath string) string {
-	f, _ := os.Open(filepath)
-
-	// Read entire JPG into byte slice.
-	reader := bufio.NewReader(f)
-
-	content, _ := ioutil.ReadAll(reader)
-
-	// Encode as base64.
-	encoded := base64.StdEncoding.EncodeToString(content)
-
-	fmt.Printf("enc=[%s]\n", encoded)
-
-	return encoded
 }

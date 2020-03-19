@@ -8,7 +8,10 @@ type Drawer interface {
 }
 
 // GlobalConfig type
-type GlobalConfig struct{}
+type GlobalConfig struct {
+	Width, Height, Compression float64
+	FileName, MimeType         string
+}
 
 // ImageClip is clip image config
 type ImageClip struct {

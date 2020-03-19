@@ -1,7 +1,11 @@
 package canvas
 
 import (
+	"bufio"
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
+	"os"
 
 	"github.com/luankefei/golang-canvas/src/libs"
 	"github.com/tdewolff/canvas"
@@ -13,134 +17,47 @@ type Canvas struct {
 }
 
 // Draw canvas.draw
-func (c *Canvas) Draw() {
-	fmt.Println("canvas_draw", c)
+func (c *Canvas) Draw(d []Drawer) {
+	fmt.Println("draw_data", d)
 
 	ctx := canvas.NewContext(c)
 
 	matrix := canvas.Identity.Translate(0, c.H)
 	ctx.SetView(matrix)
 
-	text := Text{
-		X: 45,
-		Y: 277.5,
-		// Y:          185,
-		Size:       39,
-		LineHeight: 39,
-		Color:      "#000000",
-		Content:    "连续早起",
-		FontStyle:  400,
-		FontFamily: "PingFang",
-	}
+	// 数据转换
 
-	text.Draw(ctx)
-
-	text = Text{
-		X: 45,
-		Y: 336,
-		// Y:          224,
-		Size:       99,
-		LineHeight: 99,
-		Color:      "#000000",
-		Content:    "154",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 45,
-		Y: 472.5,
-		// Y:          315,
-		Size:       39,
-		LineHeight: 39,
-		Color:      "#000000",
-		Content:    "今日早起",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 45,
-		Y: 528,
-		// Y:          352,
-		Size:       99,
-		LineHeight: 99,
-		Color:      "#000000",
-		Content:    "10:22",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 45,
-		Y: 694.5,
-		// Y:          463,
-		Size:       36,
-		LineHeight: 36,
-		Color:      "#000000",
-		Content:    "10906993人正在参与 比185万人起的早",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-		Limit:      250,
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 967.5,
-		// X: 645,
-		Y: 25.5,
-		// Y:          17,
-		Size:       75,
-		LineHeight: 75,
-		Color:      "#000000",
-		Content:    "13",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-		// Limit:      217,
-		Limit: 73,
-		Align: 1, // right
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 967.5,
-		// X: 645,
-		Y: 120,
-		// Y:          80,
-		Size:       30,
-		LineHeight: 30,
-		Color:      "#000000",
-		Content:    "2020.03",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-		Align:      1, // right
-		// Limit:      217,
-		Limit: 73,
-	}
-
-	text.Draw(ctx)
 }
 
 // CreateImage is api entry
 func CreateImage(d []Drawer, g GlobalConfig) {
-	// TODO: 临时测试代码
-	Setup()
-
-	c := Canvas{canvas.New(1125, 1125)}
-	c.Draw()
+	c := Canvas{canvas.New(g.Width, g.Height)}
+	c.Draw(d)
 
 	// 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
-	c.SavePNG("out.png", 1)
+	c.SavePNG(g.FileName, 1)
 
 	fmt.Println("create image", len(d), g)
+}
+
+// uploadImg todo...
+func uploadImg() {}
+
+// 文件转base64
+func toBase64(filepath string) string {
+	f, _ := os.Open(filepath)
+
+	// Read entire JPG into byte slice.
+	reader := bufio.NewReader(f)
+
+	content, _ := ioutil.ReadAll(reader)
+
+	// Encode as base64.
+	encoded := base64.StdEncoding.EncodeToString(content)
+
+	fmt.Printf("enc=[%s]\n", encoded)
+
+	return encoded
 }
 
 // Setup 整个绘图模块的初始化
