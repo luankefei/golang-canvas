@@ -32,6 +32,8 @@ func (c *Canvas) Draw(d []Drawer) {
 // CreateImage is api entry
 func CreateImage(d []Drawer, g GlobalConfig) {
 	c := Canvas{canvas.New(g.Width, g.Height)}
+
+	// 对*canvas.Draw函数传入绘图数据
 	c.Draw(d)
 
 	// 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
