@@ -2,6 +2,7 @@ package canvas
 
 import "github.com/tdewolff/canvas"
 
+// DrawWrapper 为json parse预留
 type DrawWrapper struct {
 	DrawType string `json:type`
 }
@@ -24,6 +25,7 @@ type ImageClip struct {
 
 // Text config
 type Text struct {
+	DrawWrapper
 	Align                         canvas.TextAlign
 	Size, X, Y, LineHeight, Limit float64
 	Color, Content, FontFamily    string
@@ -48,9 +50,11 @@ type Text struct {
 
 // Image config
 type Image struct {
+	DrawWrapper
 	x, y, width, height, opacity, borderRadius int32
 	imageURL                                   string
 	clip                                       ImageClip
+	buffer                                     []byte
 }
 
 // Rect is a rectangle in 2D defined by a position and its width and height.

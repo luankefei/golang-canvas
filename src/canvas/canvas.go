@@ -29,117 +29,14 @@ func (c *Canvas) Draw(d []Drawer) {
 
 	fmt.Println("canvas_draw", c)
 
-	text := Text{
-		X: 45,
-		Y: 277.5,
-		// Y:          185,
-		Size:       39,
-		LineHeight: 39,
-		Color:      "#000000",
-		Content:    "连续早起",
-		FontStyle:  400,
-		FontFamily: "PingFang",
+	for _, v := range d {
+		v.Draw(ctx)
 	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 45,
-		Y: 336,
-		// Y:          224,
-		Size:       99,
-		LineHeight: 99,
-		Color:      "#000000",
-		Content:    "154",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 45,
-		Y: 472.5,
-		// Y:          315,
-		Size:       39,
-		LineHeight: 39,
-		Color:      "#000000",
-		Content:    "今日早起",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 45,
-		Y: 528,
-		// Y:          352,
-		Size:       99,
-		LineHeight: 99,
-		Color:      "#000000",
-		Content:    "10:22",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 45,
-		Y: 694.5,
-		// Y:          463,
-		Size:       36,
-		LineHeight: 36,
-		Color:      "#000000",
-		Content:    "10906993人正在参与 比185万人起的早",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-		Limit:      250,
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 967.5,
-		// X: 645,
-		Y: 25.5,
-		// Y:          17,
-		Size:       75,
-		LineHeight: 75,
-		Color:      "#000000",
-		Content:    "13",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-		// Limit:      217,
-		Limit: 73,
-		Align: 1, // right
-	}
-
-	text.Draw(ctx)
-
-	text = Text{
-		X: 967.5,
-		// X: 645,
-		Y: 120,
-		// Y:          80,
-		Size:       30,
-		LineHeight: 30,
-		Color:      "#000000",
-		Content:    "2020.03",
-		FontStyle:  700,
-		FontFamily: "PingFang",
-		Align:      1, // right
-		// Limit:      217,
-		Limit: 73,
-	}
-
-	text.Draw(ctx)
 }
 
 // CreateImage is api entry
 func CreateImage(d []Drawer, g GlobalConfig) {
-	Setup()
+	// Setup()
 
 	c := Canvas{canvas.New(g.Width, g.Height)}
 

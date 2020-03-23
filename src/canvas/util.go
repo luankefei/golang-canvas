@@ -9,6 +9,23 @@ import (
 	"strings"
 )
 
+// LoadImageFilter drawer
+// TODO: 这里后续可以加入buffer_name和expires的检查
+func LoadImageFilter(arr []interface{}) []Image {
+	d := make([]Image, 0)
+
+	for _, v := range arr {
+		switch v.(type) {
+		case Image:
+			{
+				d = append(d, v.(Image))
+			}
+		}
+	}
+
+	return d
+}
+
 // RGBAToColor convert rgba string like rgba(255, 255, 255, 1) to color.RGBA
 func RGBAToColor(s string) color.RGBA {
 	var t2 = []byte{}
