@@ -27,20 +27,6 @@ func (c *Canvas) Draw(d []Drawer) {
 	matrix := canvas.Identity.Translate(0, c.H)
 	ctx.SetView(matrix)
 
-	// // 数据转换
-	// text := Text{
-	// 	X:          100,
-	// 	Y:          100,
-	// 	Size:       90,
-	// 	LineHeight: 40,
-	// 	Color:      "#000000",
-	// 	Content:    "测试的文字，我爱北京天安门",
-	// 	FontStyle:  400,
-	// 	FontFamily: "PingFang",
-	// }
-
-	// text.Draw(ctx)
-
 	fmt.Println("canvas_draw", c)
 
 	text := Text{

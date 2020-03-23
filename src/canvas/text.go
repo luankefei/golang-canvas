@@ -2,86 +2,60 @@ package canvas
 
 import (
 	"fmt"
-	// "image/color"
 
 	"github.com/luankefei/golang-canvas/src/libs"
 	"github.com/tdewolff/canvas"
 )
 
-// TODO 放函数内部是否更合理
+// TODO 使用单例替代
 var fontFamily map[string]*canvas.FontFamily
 var ptPerMm = 2.8346456692913384
 
 // Draw text
 func (t *Text) Draw(c *canvas.Context) {
-	// TODO: color is not support HEX string, using RGBA instead
+	// color is HEX string, recommend use RGBA instead
 	color := HexToColor(t.Color)
 	content := t.Content
 	indent := float64(0)
-	lineStretch := 0.0
-	// lineStretch := (t.LineHeight / t.Size)
-	// limit := float64(10)
+
+	// TODO: 不确定lineStretch的使用是否正确
+	lineStretch := t.LineHeight - t.Size
 	limit := float64(t.Limit)
 	align := t.Align
 
 	// TODO: fontFamily依赖loadFont的加载，理论上只需要加载一次，多字体可以实现并存
 	fontKey := fmt.Sprintf("_font_%s_%d", t.FontFamily, t.FontStyle)
 
-	// size float64, col color.Color, style FontStyle, variant FontVariant
 	// canvas.FontNormal
 	face := fontFamily[fontKey].Face(t.Size*ptPerMm, color, t.FontStyle, canvas.FontNormal)
 
-	// face := fontFamily[fontKey].Face(t.Size, color, t.FontStyle, canvas.FontNormal)
 	metrics := face.Metrics()
 	diff := metrics.Ascent - metrics.CapHeight
 
 	// TODO: stroke
-
-	fmt.Println("draw stroke", t.X, t.Y*-1+diff+t.LineHeight, content)
-	p, _ := face.ToPath(content)
-	c.DrawPath(t.X, t.Y*-1+diff-t.LineHeight, p.Stroke(0.75, canvas.RoundCap, canvas.RoundJoin))
+	// fmt.Println("draw stroke", t.X, t.Y*-1+diff+t.LineHeight, content)
+	// p, _ := face.ToPath(content)
+	// c.DrawPath(t.X, t.Y*-1+diff-t.LineHeight, p.Stroke(0.75, canvas.RoundCap, canvas.RoundJoin))
 
 	fmt.Println("metrics", metrics.Ascent, metrics.CapHeight, diff)
 	fmt.Println("line_break", limit, lineStretch)
-	// c := canvas.New(750, 750)
-	// ctx := canvas.NewContext(c)
-	// ctx.SetView(canvas.Identity.Translate(0.0, 0.0))
+
+	// TODO: height为0可能会导致折行不生效
 	text := canvas.NewTextBox(
 		face,
 		content,
 		limit,
-		500,
-		// limit,
-		// 0,
+		0,
 		align,
-		// align,
 		canvas.Top,
 		indent,
 		lineStretch,
 	)
 
-	// text2 := canvas.NewTextLine(face, content, canvas.Left)
 	fmt.Println("text draw ", t.Size, content, indent, lineStretch)
 	c.DrawText(t.X, t.Y*-1+diff, text)
-	// c.DrawText(t.X, t.Y, text2)
 	c.SetFillColor(color)
 }
-
-// func drawText(c *canvas.Context, x, y float64, halign, valign canvas.TextAlign, indent float64) {
-// 	face := fontFamily.Face(20.0, color.Black, canvas.FontRegular, canvas.FontNormal)
-// 	// phrase := "测试的文本一，phase,测试的文本一，phase,测试的文本一，phase,测试的文本一，phase, 测试的文本一，phase,测试的文本一，phase,测试的文本一，phase"
-// 	phrase := "hello, world,hello, world,hello, world,hello, world,hello, world,hello, world,hello, world,hello, world,hello, world,hello, world,hello, world,hello, world,hello, world,hello, world, yeah"
-
-// 	// box的宽高 0是auto
-// 	text := canvas.NewTextBox(face, phrase, 0.0, 0.0, halign, valign, indent, 0.0)
-// 	rect := text.Bounds()
-// 	rect.Y = 0.0
-// 	rect.H = -35.0
-// 	c.SetFillColor(canvas.Whitesmoke)
-// 	c.DrawPath(x, y, rect.ToPath())
-// 	c.SetFillColor(canvas.Black)
-// 	c.DrawText(x, y, text)
-// }
 
 // LoadFont 从本地文件注册字体
 func LoadFont(filepath string, name string, style canvas.FontStyle) {
@@ -115,26 +89,3 @@ func InitFont() {
 		LoadFont(v.FileName, v.Name, v.Style)
 	}
 }
-
-// func testText() {
-// 	c := canvas.New(1000, 1000)
-// 	ctx := canvas.NewContext(c)
-
-// 	matrix := canvas.Identity.Translate(0, 500)
-// 	// .Rotate(180).ReflectY().
-
-// 	ctx.SetView(matrix)
-// 	// ctx.ComposeView(matrix)
-// 	// ctx.ResetView()
-
-// 	drawText(ctx, 0.0, 0.0, canvas.Left, canvas.Top, 0.0)
-
-// 	// savePng的第二个参数是canvas导出时放大的倍数
-// 	c.SavePNG("out.png", 1.0)
-// }
-
-// rect := text.Bounds()
-// rect.Y = 0.0
-// rect.H = -35.0
-// ctx.SetFillColor(canvas.Whitesmoke)
-// ctx.DrawPath(t.X, t.Y, rect.ToPath())
