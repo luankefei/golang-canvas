@@ -2,6 +2,10 @@ package canvas
 
 import "github.com/tdewolff/canvas"
 
+type DrawWrapper struct {
+	DrawType string `json:type`
+}
+
 // Drawer is general interface
 type Drawer interface {
 	Draw(c *canvas.Context)

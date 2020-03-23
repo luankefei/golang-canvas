@@ -30,9 +30,16 @@ func (t *Text) Draw(c *canvas.Context) {
 	// size float64, col color.Color, style FontStyle, variant FontVariant
 	// canvas.FontNormal
 	face := fontFamily[fontKey].Face(t.Size*ptPerMm, color, t.FontStyle, canvas.FontNormal)
+
 	// face := fontFamily[fontKey].Face(t.Size, color, t.FontStyle, canvas.FontNormal)
 	metrics := face.Metrics()
 	diff := metrics.Ascent - metrics.CapHeight
+
+	// TODO: stroke
+
+	fmt.Println("draw stroke", t.X, t.Y*-1+diff+t.LineHeight, content)
+	p, _ := face.ToPath(content)
+	c.DrawPath(t.X, t.Y*-1+diff-t.LineHeight, p.Stroke(0.75, canvas.RoundCap, canvas.RoundJoin))
 
 	fmt.Println("metrics", metrics.Ascent, metrics.CapHeight, diff)
 	fmt.Println("line_break", limit, lineStretch)

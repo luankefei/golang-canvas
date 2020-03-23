@@ -8,7 +8,7 @@ import (
 // 测试画图主入口的参数传入
 func TestCreateImage(t *testing.T) {
 	// TODO: 临时测试代码
-	Setup()
+	// Setup()
 
 	var data []Drawer
 
@@ -17,7 +17,11 @@ func TestCreateImage(t *testing.T) {
 		y: 2,
 	}
 	data = append(data, &i)
-	global := GlobalConfig{}
+	global := GlobalConfig{
+		Width:    1000,
+		Height:   1000,
+		FileName: "out.png",
+	}
 
 	CreateImage(data, global)
 }
