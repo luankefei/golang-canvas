@@ -14,9 +14,6 @@ func LoadConfigFromJSON(filepath string, value interface{}) interface{} {
 
 	// read our opened jsonFile as a byte array.
 	bytes, _ := ioutil.ReadAll(file)
-	fmt.Println("bytes", bytes)
-
-	// conf := value
 
 	err := json.Unmarshal(bytes, &value)
 	fmt.Println("conf:", value)

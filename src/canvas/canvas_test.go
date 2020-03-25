@@ -1,6 +1,7 @@
 package canvas
 
 import (
+	"context"
 	"fmt"
 	"testing"
 )
@@ -13,11 +14,11 @@ func TestCreateImage(t *testing.T) {
 	// 塞到[]drawer之前就拆成两个数组
 	data := []Drawer{
 		&Image{
-			x:        1,
-			y:        2,
-			width:    1125,
-			height:   1125,
-			imageURL: "https://img.laiye.com/checkinAlbum_20200309105259_wPkT1VY88V.jpg",
+			X:        1,
+			Y:        2,
+			Width:    1125,
+			Height:   1125,
+			ImageURL: "https://img.laiye.com/checkinAlbum_20200309105259_wPkT1VY88V.jpg",
 		}, &Text{
 			X:          45,
 			Y:          277.5,
@@ -114,11 +115,22 @@ func TestHexToColor(t *testing.T) {
 
 func TestLoadImageFilter(t *testing.T) {
 	var arr = []Drawer{
-		&Image{x: 0, y: 0},
+		&Image{
+			X:        0,
+			Y:        0,
+			ImageURL: "https://img.laiye.com/qE9MKluetOntzRtRbNltRhIpicn8ktDDNbTPiaGCv1CrIoPQor5Iw7Q6LM78qJft8ncTFCze3S4JHzpLEqiclrCJg.jpg",
+		},
 	}
 	testArr := make([]interface{}, len(arr))
 	for i, v := range arr {
 		testArr[i] = v
 	}
-	fmt.Println(LoadImageFilter(testArr))
+
+	images := LoadImageFilter(testArr)
+	for _, v := range images {
+		// TODO: traceId在http header内，image_key用来做兜底方案
+		fetchOneImage(context.Background(), "traceId", "businessName", v, "image_key")
+	}
+
+	fmt.Println("TestLoadImageFilter finish", images[0])
 }

@@ -4,6 +4,12 @@ import (
 	"time"
 )
 
+// IsLocal TODO
+func IsLocal() bool {
+	return false
+	// return getMacAddr() == "6c:96:cf:dd:18:4d"
+}
+
 // Setup initialize the configuration instance
 func Setup() {
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
