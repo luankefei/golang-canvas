@@ -45,7 +45,7 @@ func loadImageByteFromRemote(imgURL string, w uint32, h uint32) ([]byte, string,
 	}
 	response, err := request.
 		Get(imgURL).
-		// SetTransport(ImageTransport).
+		SetTransport(ImageTransport).
 		Response()
 	if response != nil && response.Body != nil {
 		defer response.Body.Close()
