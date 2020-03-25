@@ -24,17 +24,13 @@ func urlIsOss(imgURL string) bool {
 func reformatURL(imageURL string, w uint32, h uint32) (string, error) {
 	fmt.Println("reformatURL", w, h)
 	if config.IsLocal() == false {
-
-		fmt.Println("reformatURL ---- 1")
 		// 替换为内网地址
 		imageURL = strings.Replace(imageURL, "img.laiye.com", "laiye-image.oss-cn-beijing-internal.aliyuncs.com", 1)
 		imageURL = strings.Replace(imageURL, "oss-cn-beijing.aliyuncs.com", "oss-cn-beijing-internal.aliyuncs.com", 1)
 	}
 	if w == uint32(0) && h == uint32(0) && urlIsOss(imageURL) {
-		fmt.Println("reformatURL ---- 2")
 		return "", fmt.Errorf("image(%s) not in oss can not assign x, y", imageURL)
 	} else if w != uint32(0) && h != uint32(0) && urlIsOss(imageURL) {
-		fmt.Println("reformatURL ---- 3")
 		// oss实时缩图
 		imageURL += fmt.Sprintf("?x-oss-process=image/resize,m_lfit,h_%d,w_%d", h, w)
 	}
@@ -47,7 +43,6 @@ func loadImageByteFromRemote(imgURL string, w uint32, h uint32) ([]byte, string,
 	var t string
 	imgURL, err := reformatURL(imgURL, w, h)
 	if err != nil {
-		fmt.Println("loadImageByteFromRemote err")
 		return img, t, err
 	}
 	response, err := libs.
@@ -125,14 +120,10 @@ func LoadImageFilter(arr []interface{}) []*Image {
 	for _, v := range arr {
 		switch t := v.(type) {
 		case *Image:
-			{
-				fmt.Println("------------------------------- case image")
-				d = append(d, v.(*Image))
-			}
+			d = append(d, v.(*Image))
+			break
 		default:
-			{
-				fmt.Println("default type", t)
-			}
+			fmt.Println("default type", t)
 		}
 	}
 	return d
