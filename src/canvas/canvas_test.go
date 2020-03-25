@@ -118,6 +118,8 @@ func TestLoadImageFilter(t *testing.T) {
 		&Image{
 			X:        0,
 			Y:        0,
+			Width:    132,
+			Height:   132,
 			ImageURL: "https://img.laiye.com/qE9MKluetOntzRtRbNltRhIpicn8ktDDNbTPiaGCv1CrIoPQor5Iw7Q6LM78qJft8ncTFCze3S4JHzpLEqiclrCJg.jpg",
 		},
 	}
@@ -129,8 +131,8 @@ func TestLoadImageFilter(t *testing.T) {
 	images := LoadImageFilter(testArr)
 	for _, v := range images {
 		// TODO: traceId在http header内，image_key用来做兜底方案
-		fetchOneImage(context.Background(), "traceId", "businessName", v, "image_key")
+		fetchOneImage(context.Background(), v)
 	}
 
-	fmt.Println("TestLoadImageFilter finish", images[0])
+	fmt.Println("TestLoadImageFilter finish", images[0].Mime)
 }

@@ -11,8 +11,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/astaxie/beego/httplib"
 	"github.com/luankefei/golang-canvas/src/config"
+	"github.com/luankefei/golang-canvas/src/libs"
 )
 
 // urlIsOss 检查图片url是否是阿里云oss地址
@@ -21,30 +21,36 @@ func urlIsOss(imgURL string) bool {
 }
 
 // reformatUrl 将oss地址替换为内网地址，用oss实时缩图
-func reformatURL(imageURL string, x uint32, y uint32) (string, error) {
+func reformatURL(imageURL string, w uint32, h uint32) (string, error) {
+	fmt.Println("reformatURL", w, h)
 	if config.IsLocal() == false {
+
+		fmt.Println("reformatURL ---- 1")
 		// 替换为内网地址
-		imageURL = strings.Replace(imageURL, "img.ps.laiye.com", "laiye-image.oss-cn-beijing-internal.aliyuncs.com", 1)
+		imageURL = strings.Replace(imageURL, "img.laiye.com", "laiye-image.oss-cn-beijing-internal.aliyuncs.com", 1)
 		imageURL = strings.Replace(imageURL, "oss-cn-beijing.aliyuncs.com", "oss-cn-beijing-internal.aliyuncs.com", 1)
 	}
-	if x == uint32(0) && y == uint32(0) && urlIsOss(imageURL) {
+	if w == uint32(0) && h == uint32(0) && urlIsOss(imageURL) {
+		fmt.Println("reformatURL ---- 2")
 		return "", fmt.Errorf("image(%s) not in oss can not assign x, y", imageURL)
-	} else if x != uint32(0) && y != uint32(0) && urlIsOss(imageURL) {
+	} else if w != uint32(0) && h != uint32(0) && urlIsOss(imageURL) {
+		fmt.Println("reformatURL ---- 3")
 		// oss实时缩图
-		imageURL += fmt.Sprintf("?x-oss-process=image/resize,m_lfit,h_%d,w_%d", y, x)
+		imageURL += fmt.Sprintf("?x-oss-process=image/resize,m_lfit,h_%d,w_%d", h, w)
 	}
 	return imageURL, nil
 }
 
 // LoadImageByteFromRemote 从远程获取图片的字节流
-func loadImageByteFromRemote(imgURL string, x uint32, y uint32) ([]byte, string, error) {
+func loadImageByteFromRemote(imgURL string, w uint32, h uint32) ([]byte, string, error) {
 	img := []byte{}
 	var t string
-	imgURL, err := reformatURL(imgURL, x, y)
+	imgURL, err := reformatURL(imgURL, w, h)
 	if err != nil {
+		fmt.Println("loadImageByteFromRemote err")
 		return img, t, err
 	}
-	response, err := httplib.
+	response, err := libs.
 		Get(imgURL).
 		// SetTransport(ImageTransport).
 		Response()
@@ -79,8 +85,9 @@ func loadImageByteFromRemote(imgURL string, x uint32, y uint32) ([]byte, string,
 
 // fetchOneImage 获取一个图片的字节流和类型
 //  (b *FetchPic)
-func fetchOneImage(ctx context.Context, traceId string, businessName string, image *Image,
-	image_key string) error {
+
+// 兜底图片方案的image_key在Image对象中传递
+func fetchOneImage(ctx context.Context, image *Image) error {
 
 	//	span, ctx := libs.FuncTraceInstance.Start(ctx)
 	//	defer libs.FuncTraceInstance.Stop(span)
@@ -99,6 +106,8 @@ func fetchOneImage(ctx context.Context, traceId string, businessName string, ima
 	// 	img, t, err = b.getLocalBufferImage(name, image)
 	// 	libs.Log().Info("trace_id(%s) get image(%+v) from local buffer, err(%+v)", traceId, image, err)
 	// } else {
+
+	fmt.Println("before loadImageByteFromRemote", image.Width, image.Height)
 	img, t, err = loadImageByteFromRemote(image.ImageURL, image.Width, image.Height)
 	// libs.Log().Info("trace_id(%s) get image(%+v) from remote, err(%+v)", traceId, image, err)
 	// }
