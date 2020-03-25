@@ -1,7 +1,6 @@
 package canvas
 
 import (
-	"context"
 	"fmt"
 	"testing"
 )
@@ -14,17 +13,62 @@ func TestCreateImage(t *testing.T) {
 	// 塞到[]drawer之前就拆成两个数组
 	data := []Drawer{
 		&Image{
-			X:        1,
-			Y:        2,
+			X:        0,
+			Y:        0,
 			Width:    1125,
 			Height:   1125,
 			ImageURL: "https://img.laiye.com/checkinAlbum_20200309105259_wPkT1VY88V.jpg",
-		}, &Text{
+		},
+		&Image{
+			// name: "avatar"
+			// Type:         "image",
+			ImageURL:     "https://img.laiye.com/cLvgXicdq4RMvFgMeyiarFciatqCEPrkGudP9N6SceHhmA4Tl2unDvK4rNVCFroJZcfqMnUGvnBeDLaZpDYW0TRl9lxmD47gs70.jpg",
+			X:            48,
+			Y:            48,
+			Width:        150,
+			Height:       150,
+			BorderRadius: 75,
+		},
+		&Image{
+			// name: "qrCode"
+			// DrawType: "image",
+			ImageURL: "https://img.laiye.com/G0gmxRbVb4EtnpEi1mUK2FkTk5HcCuK6mbX7lj5qFYbU3D0A.png",
+			X:        930,
+			Y:        930,
+			Height:   150,
+			Width:    150,
+		},
+		&Text{
+			// name: "chickenMessage"
+			// DrawType:   "text",
+			Content:    "之所以能，是因为相信能",
+			X:          270,
+			Y:          975,
+			Limit:      615,
+			Size:       39,
+			Align:      1,
+			LineHeight: 45,
+			FontStyle:  700,
+			Color:      "#ffffff",
+			FontFamily: "PingFang",
+		},
+		&Text{
+			// Name: "welcomeMessage"
+			// DrawType: "text",
+			Content:    "扫码和我互道早安",
+			X:          570,
+			Y:          1035,
+			Size:       39,
+			FontStyle:  400,
+			Color:      "#ffffff",
+			FontFamily: "PingFang",
+		},
+		&Text{
 			X:          45,
 			Y:          277.5,
 			Size:       39,
 			LineHeight: 39,
-			Color:      "#000000",
+			Color:      "#ffffff",
 			Content:    "连续早起",
 			FontStyle:  400,
 			FontFamily: "PingFang",
@@ -34,7 +78,7 @@ func TestCreateImage(t *testing.T) {
 			Y:          336,
 			Size:       99,
 			LineHeight: 99,
-			Color:      "#000000",
+			Color:      "#ffffff",
 			Content:    "154",
 			FontStyle:  700,
 			FontFamily: "PingFang",
@@ -44,7 +88,7 @@ func TestCreateImage(t *testing.T) {
 			Y:          472.5,
 			Size:       39,
 			LineHeight: 39,
-			Color:      "#000000",
+			Color:      "#ffffff",
 			Content:    "今日早起",
 			FontStyle:  700,
 			FontFamily: "PingFang",
@@ -54,7 +98,7 @@ func TestCreateImage(t *testing.T) {
 			Y:          528,
 			Size:       99,
 			LineHeight: 99,
-			Color:      "#000000",
+			Color:      "#ffffff",
 			Content:    "10:22",
 			FontStyle:  700,
 			FontFamily: "PingFang",
@@ -64,18 +108,18 @@ func TestCreateImage(t *testing.T) {
 			Y:          694.5,
 			Size:       36,
 			LineHeight: 36,
-			Color:      "#000000",
+			Color:      "#ffffff",
 			Content:    "10906993人正在参与 比185万人起的早",
 			FontStyle:  700,
 			FontFamily: "PingFang",
-			Limit:      250,
+			Limit:      500,
 		},
 		&Text{
 			X:          967.5,
 			Y:          25.5,
 			Size:       75,
 			LineHeight: 75,
-			Color:      "#000000",
+			Color:      "#ffffff",
 			Content:    "13",
 			FontStyle:  700,
 			FontFamily: "PingFang",
@@ -87,7 +131,7 @@ func TestCreateImage(t *testing.T) {
 			Y:          120,
 			Size:       30,
 			LineHeight: 30,
-			Color:      "#000000",
+			Color:      "#ffffff",
 			Content:    "2020.03",
 			FontStyle:  700,
 			FontFamily: "PingFang",
@@ -99,7 +143,7 @@ func TestCreateImage(t *testing.T) {
 	global := GlobalConfig{
 		Width:    1125,
 		Height:   1125,
-		FileName: "out.png",
+		FileName: "out1.png",
 	}
 
 	CreateImage(data, global)
@@ -129,10 +173,10 @@ func TestLoadImageFilter(t *testing.T) {
 	}
 
 	images := LoadImageFilter(testArr)
-	for _, v := range images {
-		// TODO: traceId在http header内，image_key用来做兜底方案
-		fetchOneImage(context.Background(), v)
-	}
+	// for _, v := range images {
+	// 	// TODO: traceId在http header内，image_key用来做兜底方案
+	// 	v.fetch()
+	// }
 
-	fmt.Println("TestLoadImageFilter finish", images[0].Mime)
+	fmt.Println("TestLoadImageFilter finish", len(images))
 }

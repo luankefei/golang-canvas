@@ -37,8 +37,8 @@ func (t *Text) Draw(c *canvas.Context) {
 	// p, _ := face.ToPath(content)
 	// c.DrawPath(t.X, t.Y*-1+diff-t.LineHeight, p.Stroke(0.75, canvas.RoundCap, canvas.RoundJoin))
 
-	fmt.Println("metrics", metrics.Ascent, metrics.CapHeight, diff)
-	fmt.Println("line_break", limit, lineStretch)
+	// fmt.Println("metrics", metrics.Ascent, metrics.CapHeight, diff)
+	// fmt.Println("line_break", limit, lineStretch)
 
 	// TODO: height为0可能会导致折行不生效
 	text := canvas.NewTextBox(
@@ -52,7 +52,7 @@ func (t *Text) Draw(c *canvas.Context) {
 		lineStretch,
 	)
 
-	fmt.Println("text draw ", t.Size, content, indent, lineStretch)
+	fmt.Println("text_draw ", t.Size, content, indent, lineStretch)
 	c.DrawText(t.X, t.Y*-1+diff, text)
 	c.SetFillColor(color)
 }

@@ -5,38 +5,40 @@ import (
 	"fmt"
 	"image/color"
 	"io/ioutil"
-	"log"
+
 	"strconv"
 	"strings"
 
 	"github.com/luankefei/golang-canvas/src/config"
 	"github.com/luankefei/golang-canvas/src/request"
+	"github.com/rs/zerolog/log"
 )
 
 // urlIsOss 检查图片url是否是阿里云oss地址
 func urlIsOss(imgURL string) bool {
-	return strings.Contains(imgURL, "oss")
+	return strings.Contains(imgURL, "oss") || strings.Contains(imgURL, "img.laiye.com")
 }
 
 // reformatUrl 将oss地址替换为内网地址，用oss实时缩图
-func reformatURL(imageURL string, w uint32, h uint32) (string, error) {
+func reformatURL(imageURL string, w float64, h float64) (string, error) {
 	fmt.Println("reformatURL", w, h)
 	if config.IsLocal() == false {
 		// 替换为内网地址
 		imageURL = strings.Replace(imageURL, "img.laiye.com", "laiye-image.oss-cn-beijing-internal.aliyuncs.com", 1)
 		imageURL = strings.Replace(imageURL, "oss-cn-beijing.aliyuncs.com", "oss-cn-beijing-internal.aliyuncs.com", 1)
 	}
-	if w == uint32(0) && h == uint32(0) && urlIsOss(imageURL) {
-		return "", fmt.Errorf("image(%s) not in oss can not assign x, y", imageURL)
-	} else if w != uint32(0) && h != uint32(0) && urlIsOss(imageURL) {
-		// oss实时缩图
-		imageURL += fmt.Sprintf("?x-oss-process=image/resize,m_lfit,h_%d,w_%d", h, w)
+	if w == float64(0) && h == float64(0) && urlIsOss(imageURL) {
+		return "", fmt.Errorf("image(%s) not in oss can not assign w, h", imageURL)
+	} else if w != float64(0) && h != float64(0) && urlIsOss(imageURL) {
+		// oss实时缩图，注意oss不支持float，所以这里要强转
+		imageURL += fmt.Sprintf("?x-oss-process=image/resize,m_lfit,h_%d,w_%d", uint32(h), uint32(w))
 	}
+
 	return imageURL, nil
 }
 
 // LoadImageByteFromRemote 从远程获取图片的字节流
-func loadImageByteFromRemote(imgURL string, w uint32, h uint32) ([]byte, string, error) {
+func loadImageByteFromRemote(imgURL string, w float64, h float64) ([]byte, string, error) {
 	img := []byte{}
 	var t string
 	imgURL, err := reformatURL(imgURL, w, h)
@@ -45,34 +47,26 @@ func loadImageByteFromRemote(imgURL string, w uint32, h uint32) ([]byte, string,
 	}
 	response, err := request.
 		Get(imgURL).
-		SetTransport(ImageTransport).
+		SetTransport(config.ImageTransport).
 		Response()
 	if response != nil && response.Body != nil {
 		defer response.Body.Close()
 	}
 	if err != nil {
-		// Log().Info("load image(%s) from remote failed, error(%+v)", imgURL, err)
-		fmt.Println("error1")
+		log.Info().
+			Err(err).
+			Msgf("load image(%s) from remote failed", imgURL)
 		return img, t, err
 	}
 	img, err = ioutil.ReadAll(response.Body)
 	if err != nil {
-		fmt.Println("error2")
-		// Log().Info("read all from image(%s) response failed, error(%+v)", imgURL, err)
+		log.Info().
+			Msgf("read all from image(%s) response failed, error(%+v)", imgURL, err)
 		return img, t, err
 	}
 	headers := response.Header
-	contentTypes := headers["Content-Type"]
-	fmt.Println("contentTypes", contentTypes)
-	// for _, c := range contentTypes {
-	// 	if c == "image/png" {
-	// 		t = draw_pb.ImageType_png
-	// 		break
-	// 	} else if c == "image/jpeg" || c == "image/jpg" {
-	// 		t = draw_pb.ImageType_jpg
-	// 		break
-	// 	}
-	// }
+	t = headers["Content-Type"][0]
+	fmt.Println("loadImageRemoteFromByte", headers["Content-Type"])
 	return img, t, nil
 }
 
@@ -90,7 +84,7 @@ func LoadImageFilter(arr []interface{}) []*Image {
 			d = append(d, v.(*Image))
 			break
 		default:
-			fmt.Println("default type", t)
+			fmt.Println("default_type", t)
 		}
 	}
 	return d
@@ -110,7 +104,6 @@ func RGBAToColor(s string) color.RGBA {
 		}
 		t2 = append(t2, byte(j))
 	}
-	fmt.Println(t2)
 
 	return color.RGBA{t2[0], t2[1], t2[2], t2[3]}
 }
@@ -124,16 +117,16 @@ func HexToColor(h string) color.RGBA {
 	// drop '#' substring
 	colorStr := h[1:]
 
-	fmt.Println("colorStr", colorStr)
-
 	colorStr, err := normalize(colorStr)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().
+			Err(err)
 	}
 
 	b, err := hex.DecodeString(colorStr)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().
+			Err(err)
 	}
 
 	color := color.RGBA{b[0], b[1], b[2], b[3]}

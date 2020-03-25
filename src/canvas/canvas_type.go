@@ -51,11 +51,10 @@ type Text struct {
 // Image config
 type Image struct {
 	DrawWrapper
-	X, Y                                 int32
-	Width, Height, Opacity, BorderRadius uint32
-	ImageURL, Mime                       string
-	Clip                                 ImageClip
-	Buffer                               []byte
+	X, Y, Width, Height, Opacity, BorderRadius float64
+	ImageURL, MimeType                         string
+	Clip                                       ImageClip
+	Buffer                                     []byte
 }
 
 // Rect is a rectangle in 2D defined by a position and its width and height.

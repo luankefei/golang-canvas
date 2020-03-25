@@ -18,7 +18,7 @@ type Canvas struct {
 
 // Draw canvas.draw
 func (c *Canvas) Draw(d []Drawer) {
-	fmt.Println("draw_data", d)
+	fmt.Println("draw_data", len(d))
 
 	ctx := canvas.NewContext(c)
 
@@ -27,16 +27,35 @@ func (c *Canvas) Draw(d []Drawer) {
 	matrix := canvas.Identity.Translate(0, c.H)
 	ctx.SetView(matrix)
 
-	fmt.Println("canvas_draw", c)
-
 	for _, v := range d {
 		v.Draw(ctx)
 	}
+	fmt.Println("draw_data_finish", len(d))
+}
+
+func prepareImage(d []Drawer) []*Image {
+	testArr := make([]interface{}, len(d))
+	for i, v := range d {
+		testArr[i] = v
+	}
+
+	images := LoadImageFilter(testArr)
+	for _, v := range images {
+		// TODO: traceId在http header内，image_key用来做兜底方案
+		v.fetch()
+	}
+	return images
 }
 
 // CreateImage is api entry
 func CreateImage(d []Drawer, g GlobalConfig) {
 	// Setup()
+
+	// 先进行图片加载
+	// TODO: 需要观察图片是否被正确加载
+	prepareImage(d)
+
+	fmt.Println("create image", len(d), g)
 
 	c := Canvas{canvas.New(g.Width, g.Height)}
 
@@ -46,8 +65,6 @@ func CreateImage(d []Drawer, g GlobalConfig) {
 	// SavePNG的第二个参数是canvas导出时放大的倍数
 	// 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
 	c.SavePNG(g.FileName, 1)
-
-	fmt.Println("create image", len(d), g)
 }
 
 // func compatibleData(d Drawer) {
@@ -72,7 +89,7 @@ func toBase64(filepath string) string {
 	// Encode as base64.
 	encoded := base64.StdEncoding.EncodeToString(content)
 
-	fmt.Printf("enc=[%s]\n", encoded)
+	// fmt.Printf("enc=[%s]\n", encoded)
 
 	return encoded
 }
