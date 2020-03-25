@@ -1,9 +1,7 @@
 package canvas
 
 import (
-	"context"
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"image/color"
 	"io/ioutil"
@@ -12,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/luankefei/golang-canvas/src/config"
-	"github.com/luankefei/golang-canvas/src/libs"
+	"github.com/luankefei/golang-canvas/src/request"
 )
 
 // urlIsOss 检查图片url是否是阿里云oss地址
@@ -45,7 +43,7 @@ func loadImageByteFromRemote(imgURL string, w uint32, h uint32) ([]byte, string,
 	if err != nil {
 		return img, t, err
 	}
-	response, err := libs.
+	response, err := request.
 		Get(imgURL).
 		// SetTransport(ImageTransport).
 		Response()
@@ -80,37 +78,6 @@ func loadImageByteFromRemote(imgURL string, w uint32, h uint32) ([]byte, string,
 
 // fetchOneImage 获取一个图片的字节流和类型
 //  (b *FetchPic)
-
-// 兜底图片方案的image_key在Image对象中传递
-func fetchOneImage(ctx context.Context, image *Image) error {
-
-	//	span, ctx := libs.FuncTraceInstance.Start(ctx)
-	//	defer libs.FuncTraceInstance.Stop(span)
-	//	span.LogFields(log.String("image url", image.ImageUrl))
-	var err error
-
-	if image.ImageURL == "" {
-		err = errors.New("image url can not be empty")
-		// libs.Log().Info("fetch one image failed, error(%v)", err)
-		return err
-	}
-	var img []byte
-	var t string
-	// if image.LocalBufferName != "" {
-	// 	name := fmt.Sprintf("%s::%s", businessName, image.LocalBufferName)
-	// 	img, t, err = b.getLocalBufferImage(name, image)
-	// 	libs.Log().Info("trace_id(%s) get image(%+v) from local buffer, err(%+v)", traceId, image, err)
-	// } else {
-
-	fmt.Println("before loadImageByteFromRemote", image.Width, image.Height)
-	img, t, err = loadImageByteFromRemote(image.ImageURL, image.Width, image.Height)
-	// libs.Log().Info("trace_id(%s) get image(%+v) from remote, err(%+v)", traceId, image, err)
-	// }
-
-	image.Mime = t
-	image.Buffer = img
-	return nil
-}
 
 // LoadImageFilter drawer
 // TODO: 这里后续可以加入buffer_name和expires的检查
