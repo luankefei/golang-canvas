@@ -4,19 +4,19 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/rs/zerolog/log"
 	"github.com/tdewolff/canvas"
 )
 
 // 兜底图片方案的image_key在Image对象中传递
 func (i *Image) fetch() error {
-	//	span, ctx := libs.FuncTraceInstance.Start(ctx)
-	//	defer libs.FuncTraceInstance.Stop(span)
-	//	span.LogFields(log.String("image url", image.ImageUrl))
 	var err error
 
 	if i.ImageURL == "" {
 		err = errors.New("image url can not be empty")
-		// libs.Log().Info("fetch one image failed, error(%v)", err)
+		log.Info().
+			Err(err).
+			Msg("fetch one image failed, error")
 		return err
 	}
 	var img []byte
