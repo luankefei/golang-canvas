@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/base64"
 	"fmt"
+	"image/color"
 	"io/ioutil"
 	"os"
 
@@ -20,12 +21,16 @@ type Canvas struct {
 func (c *Canvas) Draw(d []Drawer) {
 	fmt.Println("draw_data", len(d))
 
+	// c.Fit(1.0)
 	ctx := canvas.NewContext(c)
+	ctx.SetFillColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
+	// ctx.SetFillColor(color.RGBA{0, 0, 0, 100})
+	ctx.DrawPath(0, 0, canvas.Rectangle(1125, 1125))
 
 	// 对画布进行一次位移调整，拉回到左上角
 	// 注意绘制反向仍然是反向
-	matrix := canvas.Identity.Translate(0, c.H)
-	ctx.SetView(matrix)
+	// matrix := canvas.Identity.Translate(0, c.H)
+	// ctx.SetView(matrix)
 
 	for _, v := range d {
 		v.Draw(ctx)

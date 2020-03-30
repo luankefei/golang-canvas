@@ -3,6 +3,7 @@ module github.com/luankefei/golang-canvas
 go 1.13
 
 require (
+	github.com/disintegration/imaging v1.6.2
 	github.com/gin-gonic/gin v1.5.0
 	github.com/golang/protobuf v1.3.3 // indirect
 	github.com/rs/zerolog v1.18.0

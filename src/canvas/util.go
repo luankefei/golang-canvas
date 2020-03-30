@@ -34,6 +34,8 @@ func reformatURL(imageURL string, w float64, h float64) (string, error) {
 		imageURL += fmt.Sprintf("?x-oss-process=image/resize,m_lfit,h_%d,w_%d", uint32(h), uint32(w))
 	}
 
+	fmt.Println("reformatURL", imageURL)
+
 	return imageURL, nil
 }
 
