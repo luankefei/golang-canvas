@@ -68,3 +68,34 @@ type Font struct {
 	Name     string           `json:name`
 	Style    canvas.FontStyle `json:style`
 }
+
+// import (
+// 	"image"
+// 	"image/color"
+// )
+
+// //Circle 圆形，实现了image.Image
+// type Path struct {
+// 	p image.Point
+// 	r int
+// }
+
+// // ColorModel 色彩
+// func (c *Circle) ColorModel() color.Model {
+// 	return color.AlphaModel
+// }
+
+// // Bounds 区域
+// func (c *Circle) Bounds() image.Rectangle {
+// 	return image.Rect(c.p.X-c.r, c.p.Y-c.r, c.p.X+c.r, c.p.Y+c.r)
+// }
+
+// // At 点值
+// func (c *Circle) At(x, y int) color.Color {
+// 	xx, yy, rr := float64(x-c.p.X)+0.5, float64(y-c.p.Y)+0.5, float64(c.r)
+// 	if xx*xx+yy*yy < rr*rr {
+// 		return color.Alpha{255}
+// 	}
+// 	return color.Alpha{0}
+// }
+

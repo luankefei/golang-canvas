@@ -8,7 +8,7 @@ import (
 	"image/jpeg"
 	"image/png"
 	"image/draw"
-	"os"
+	// "os"
 
 	// "github.com/llgcode/draw2d"
 	"github.com/rs/zerolog/log"
@@ -89,14 +89,7 @@ func ClipPreserve(c *canvas.Context, i *Image) {
 
 // Draw image
 func (i *Image) Draw(c *canvas.Context) {
-	// fmt.Println("===1")
-	head, _ := os.Open("../static/head.jpeg")
-	img, _ := jpeg.Decode(head)
-	c.DrawImage(-1, -1, img, 1)
-
-	bg, _ := os.Open("../static/background.jpeg")
-	bgImg, _ := jpeg.Decode(bg)
-	c.DrawImage(0, 0, bgImg, 1)
+	fmt.Println("===1")
 	// draw.DrawMask(dst, dst.Bounds(), src, image.ZP, &circle{p, r}, image.ZP, draw.Over)
 	// c.DrawImage(0, 0, img, 1)
 	// if err != nil {
@@ -120,8 +113,8 @@ func (i *Image) Draw(c *canvas.Context) {
 	// 获取实际图片尺寸和传入参数之间的比例
 	scale := (float64(image.Bounds().Dx()) / i.Width)
 	fmt.Println("=== scale", scale)
-	// c.DrawImage(i.X, i.Y*-1-i.Height, image, scale)
-	c.DrawImage(i.X, i.Y, image, scale)
+	c.DrawImage(i.X, i.Y*-1-i.Height, image, scale)
+	// c.DrawImage(i.X, i.Y, image, scale)
 }
 
 // ConvertBytesToImage 将二进制流转化为图片
