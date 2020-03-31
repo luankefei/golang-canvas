@@ -5,15 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"image"
+	"image/draw"
 	"image/jpeg"
 	"image/png"
-	"image/draw"
+
 	// "os"
 
 	// "github.com/llgcode/draw2d"
+	"github.com/disintegration/imaging"
 	"github.com/rs/zerolog/log"
 	"github.com/tdewolff/canvas"
-	"github.com/disintegration/imaging"
 	// "github.com/golang/freetype/raster"
 )
 
@@ -43,6 +44,7 @@ func (i *Image) fetch() error {
 	i.Buffer = img
 	return nil
 }
+
 // imageWidth: number,
 // imageHeight: number,
 // offsetX: number,
@@ -60,36 +62,42 @@ func (i *Image) fetch() error {
 // ClipPreserve updates the clipping region by intersecting the current
 // clipping region with the current path as it would be filled by dc.Fill().
 // The path is preserved after this operation.
-func ClipPreserve(c *canvas.Context, i *Image) {
+func ClipPreserve(c *canvas.Context, i *Image, dst *image.RGBA) (draw.Image, error) {
+	fmt.Println("ClipPreserve === 1", c.Width(), c.Height(), i.BorderRadius)
 	// var mask Path
-	mask := Path{canvas.RoundedRectangle(100, 100, 20)}
-	tempPath := imaging.Resize(&mask, int(100), int(100), imaging.Linear)
+	mask := Path{*canvas.RoundedRectangle(i.Width, i.Height, i.BorderRadius), i}
+	fmt.Println("ClipPreserve === 2", mask)
+	tempPath := imaging.Resize(&mask, int(i.Width), int(i.Height), imaging.Linear)
 
-	rect := image.Rect(0, 0, 1000, 1000)
-	dst := image.NewAlpha(rect)
+	fmt.Println("ClipPreserve === TODO 3")
+	fmt.Println("ClipPreserve === 4", i.Y, i.Height)
 	// &Circle{pt, dx / 2}, nil
 	// golang-draw传入的是图片的起点，取负值不知道为什么
-	pt := image.Pt(-int(0), -int(0))
+	// pt := image.Pt(-int(i.X), -int(i.Y))
+
+	// zero := image.Pt(0, 0)
+
+	pt := image.Pt(-int(i.X), -int(i.Y))
 	// painter := raster.NewAlphaOverPainter(clip)
 	// dc.fill(painter)
 	// if dc.mask == nil {
 	// 	dc.mask = clip
 	// } else {
-		// mask := image.NewAlpha(image.Rect(0, 0, dc.width, dc.height))
-
+	// mask := image.NewAlpha(image.Rect(0, 0, dc.width, dc.height))
 
 	img, _ := ConvertBytesToImage(i.Buffer, i.MimeType)
 
-  // image.ZP
+	fmt.Println("ClipPreserve === 5")
+	// image.ZP
 	draw.DrawMask(dst, dst.Bounds(), img, pt, tempPath, pt, draw.Over)
 	// dc.mask = mask
 	// }
-}
 
+	return dst, nil
+}
 
 // Draw image
 func (i *Image) Draw(c *canvas.Context) {
-	fmt.Println("===1")
 	// draw.DrawMask(dst, dst.Bounds(), src, image.ZP, &circle{p, r}, image.ZP, draw.Over)
 	// c.DrawImage(0, 0, img, 1)
 	// if err != nil {
@@ -107,40 +115,46 @@ func (i *Image) Draw(c *canvas.Context) {
 	// c.DrawImage(0, 0, img, 1)
 
 	// fmt.Println("===4")
-	image, _ := ConvertBytesToImage(i.Buffer, i.MimeType)
+	img, _ := ConvertBytesToImage(i.Buffer, i.MimeType)
 	fmt.Println("=== image_draw: ", i.MimeType, i.ImageURL, i.Width, i.Height)
 
 	// 获取实际图片尺寸和传入参数之间的比例
-	scale := (float64(image.Bounds().Dx()) / i.Width)
+	scale := (float64(img.Bounds().Dx()) / i.Width)
 	fmt.Println("=== scale", scale)
-	c.DrawImage(i.X, i.Y*-1-i.Height, image, scale)
+
+	// test 图片切圆角功能
+	// if i.BorderRadius > 0 {
+	dst := image.NewRGBA(image.Rect(0, 0, int(i.Width), int(i.Height)))
+	img, _ = ClipPreserve(c, i, dst)
+
+	fmt.Println("=====img", img.Bounds())
+	// }
+
+	c.DrawImage(i.X, i.Y*-1-i.Height, img, scale)
+
 	// c.DrawImage(i.X, i.Y, image, scale)
 }
 
 // ConvertBytesToImage 将二进制流转化为图片
 func ConvertBytesToImage(imgByte []byte, t string) (image.Image, error) {
-	fmt.Println("===11")
 	if len(imgByte) == 0 {
 		return nil, errors.New("can not convert empty image")
 	}
 	var img image.Image
 	var err error
 	imgIoReader := bytes.NewReader(imgByte)
-	fmt.Println("===22")
 	switch t {
 	case "image/jpeg":
 		img, err = jpeg.Decode(imgIoReader)
 	case "image/png":
 		img, err = png.Decode(imgIoReader)
 	}
-	fmt.Println("===33")
 	if err != nil {
 		log.Info().Msgf("gzh_test jpg png failed err (%v) img(%d) type(%v)", err, len(imgByte), t)
 	} else {
 		log.Info().Msgf("gzh_test jpg png success img(%d) type(%v)", len(imgByte), t)
 	}
 
-	fmt.Println("===444")
 	return img, err
 }
 

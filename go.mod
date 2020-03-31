@@ -9,6 +9,7 @@ require (
 	github.com/rs/zerolog v1.18.0
 	github.com/tdewolff/canvas v0.0.0-20200112234221-d90d8eee919d
 	golang.org/x/sys v0.0.0-20190921204832-2dccfee4fd3e // indirect
+	golang.org/x/tools/gopls v0.3.4 // indirect
 	routes v0.0.0
 )
 
