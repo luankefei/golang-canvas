@@ -148,7 +148,7 @@ func TestCreateImage(t *testing.T) {
 	global := GlobalConfig{
 		Width:    1125,
 		Height:   1125,
-		FileName: "out1.png",
+		FileName: "test_mask.png",
 	}
 
 	// fmt.Println(data, global)
@@ -173,7 +173,7 @@ func TestBasicDrawImage(t *testing.T) {
 	img, _ := jpeg.Decode(head)
 	ctx.DrawImage(-1, -1, img, 1)
 
-	c.SavePNG("out.png", 1)
+	c.SavePNG("test_position.png", 1)
 }
 
 func TestRGBAToColor(t *testing.T) {
