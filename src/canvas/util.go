@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"image/color"
 	"io/ioutil"
+	"net/http"
 
 	"strconv"
 	"strings"
@@ -30,13 +31,24 @@ func reformatURL(imageURL string, w float64, h float64) (string, error) {
 	if w == float64(0) && h == float64(0) && urlIsOss(imageURL) {
 		return "", fmt.Errorf("image(%s) not in oss can not assign w, h", imageURL)
 	} else if w != float64(0) && h != float64(0) && urlIsOss(imageURL) {
+		// 调用 resize，默认是不允许放大。即如果请求的图片比原图大，那么返回的仍然是原图。如果想取到放大的图片，即增加参数调用 limit_0 （如：https://image-demo.oss-cn-hangzhou.aliyuncs.com/example.jpg?x-oss-process=image/resize,w_500,limit_0）
+		// @see https://help.aliyun.com/document_detail/44688.html?spm=a2c4g.11186623.6.1367.57f117f1UQGsW3
 		// oss实时缩图，注意oss不支持float，所以这里要强转
-		imageURL += fmt.Sprintf("?x-oss-process=image/resize,m_lfit,h_%d,w_%d", uint32(h), uint32(w))
+		imageURL += fmt.Sprintf("?x-oss-process=image/resize,m_lfit,h_%d,w_%d,limit_0", uint32(h), uint32(w))
 	}
 
 	fmt.Println("reformatURL", imageURL)
 
 	return imageURL, nil
+}
+
+func getFileContentType(buffer []byte) (string, error) {
+	// Only the first 512 bytes are used to sniff the content type.
+	// Use the net/http package's handy DectectContentType function. Always returns a valid
+	// content-type by returning "application/octet-stream" if no others seemed to match.
+	contentType := http.DetectContentType(buffer[:512])
+
+	return contentType, nil
 }
 
 // LoadImageByteFromRemote 从远程获取图片的字节流
@@ -67,8 +79,11 @@ func loadImageByteFromRemote(imgURL string, w float64, h float64) ([]byte, strin
 		return img, t, err
 	}
 	headers := response.Header
-	t = headers["Content-Type"][0]
-	fmt.Println("loadImageRemoteFromByte", headers["Content-Type"])
+	t, _ = getFileContentType(img)
+
+	// t = headers["Content-Type"][0]
+
+	fmt.Println("loadImageRemoteFromByte", headers["Content-Type"], t, imgURL)
 	return img, t, nil
 }
 
