@@ -80,11 +80,13 @@ func loadImageByteFromRemote(imgURL string, resize bool, w float64, h float64) (
 		return img, t, err
 	}
 	headers := response.Header
-	t, _ = getFileContentType(img)
 
-	// t = headers["Content-Type"][0]
+	t, err = getFileContentType(img)
 
-	fmt.Println("loadImageRemoteFromByte", headers["Content-Type"], t, imgURL)
+	// http content-type field is untructed，this only be used for fallback
+	if err != nil {
+		t = headers["Content-Type"][0]
+	}
 	return img, t, nil
 }
 
