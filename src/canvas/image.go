@@ -13,6 +13,7 @@ import (
 
 	// "github.com/llgcode/draw2d"
 	"github.com/disintegration/imaging"
+	"github.com/oliamb/cutter"
 	"github.com/rs/zerolog/log"
 	"github.com/tdewolff/canvas"
 	// "github.com/golang/freetype/raster"
@@ -20,23 +21,6 @@ import (
 
 // Draw image
 func (i *Image) Draw(c *canvas.Context) {
-	// draw.DrawMask(dst, dst.Bounds(), src, image.ZP, &circle{p, r}, image.ZP, draw.Over)
-	// c.DrawImage(0, 0, img, 1)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Println("===2")
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// fmt.Println("===3")
-	// // x, y float64, img image.Image, dpm float64
-	// // Scale(1.0/dpm, 1.0/dpm)
-	// c.DrawImage(0, 0, img, 1)
-
-	// fmt.Println("===4")
 	img, _ := ConvertBytesToImage(i.Buffer, i.MimeType)
 
 	// fmt.Println("=== scale", scale, i.Width)
@@ -55,19 +39,17 @@ func (i *Image) Draw(c *canvas.Context) {
 
 	// TODO: 阿里云oss resize不会对图片进行放大,只能缩小，所以绘制时仍然要依赖绘图库进行图片缩放
 	// TODO: 2020.4.7 考虑将计算缩放比率放到切图之后
-	// if i.Clip.Width > 0 {
-	// 	fmt.Println("beforeClipped", img.Bounds())
-	// 	croppedImg, _ := cutter.Crop(img, cutter.Config{
-	// 		Width:  i.Clip.Width,
-	// 		Height: i.Clip.Height,
-	// 		Anchor: image.Point{i.Clip.X, i.Clip.Y},
-	// 	})
-	// 	img = croppedImg
-	// }
+	if i.Clip.Width > 0 {
+		croppedImg, _ := cutter.Crop(img, cutter.Config{
+			Width:  i.Clip.Width,
+			Height: i.Clip.Height,
+			Anchor: image.Point{i.Clip.X, i.Clip.Y},
+		})
+		img = croppedImg
+	}
 
 	fmt.Println("=== image_draw: ", i.MimeType, i.ImageURL, i.Width, i.Height, scale, img.Bounds().Dx(), img.Bounds())
 	c.DrawImage(i.X, i.Y*-1-i.Height, img, scale)
-	// c.DrawImage(i.X, i.Y, img, scale)
 }
 
 // ConvertBytesToImage 将二进制流转化为图片

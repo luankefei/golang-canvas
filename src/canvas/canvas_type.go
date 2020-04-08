@@ -55,6 +55,7 @@ type Image struct {
 	ImageURL, MimeType                         string
 	Buffer                                     []byte
 	Clip                                       ImageClip
+	Resize                                     bool
 }
 
 // Rect is a rectangle in 2D defined by a position and its width and height.
