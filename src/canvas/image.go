@@ -88,24 +88,17 @@ func (i *Image) fetch() error {
 	}
 	var img []byte
 	var t string
+	// TODO: 图片缓存
 	// if image.LocalBufferName != "" {
 	// 	name := fmt.Sprintf("%s::%s", businessName, image.LocalBufferName)
 	// 	img, t, err = b.getLocalBufferImage(name, image)
 	// 	libs.Log().Info("trace_id(%s) get image(%+v) from local buffer, err(%+v)", traceId, image, err)
 	// } else {
-	img, t, err = loadImageByteFromRemote(i.ImageURL, i.Width, i.Height)
+	img, t, err = loadImageByteFromRemote(i.ImageURL, i.Resize, i.Width, i.Height)
 	// libs.Log().Info("trace_id(%s) get image(%+v) from remote, err(%+v)", traceId, image, err)
 	// }
 
 	i.MimeType = t
-
-	// TODO: test code
-	// if i.Clip.Width > 0 {
-	// 	qcode, _ := os.Open("../static/raw_qrcode.png")
-	// 	reader := bufio.NewReader(qcode)
-	// 	img, _ = ioutil.ReadAll(reader)
-	// 	// img, _ = jpeg.Decode(qcode)
-	// }
 	i.Buffer = img
 	return nil
 }
@@ -160,19 +153,3 @@ func ClipPreserve(c *canvas.Context, i *Image, dst *image.RGBA) (draw.Image, err
 
 	return dst, nil
 }
-
-// func drawImage(c *canvas.Context) {
-// 	head, err := os.Open("../static/head.jpeg")
-// 	if err != nil {
-// 		panic(err)
-// 	}
-
-// 	img, err := jpeg.Decode(head)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-
-// 	// x, y float64, img image.Image, dpm float64
-// 	// Scale(1.0/dpm, 1.0/dpm)
-// 	c.DrawImage(0, 0, img, 1)
-// }
