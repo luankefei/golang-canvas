@@ -20,7 +20,7 @@ type GlobalConfig struct {
 
 // ImageClip is clip image config
 type ImageClip struct {
-	width, height, x, y int32
+	Width, Height, X, Y int
 }
 
 // Text config
@@ -53,8 +53,8 @@ type Image struct {
 	DrawWrapper
 	X, Y, Width, Height, Opacity, BorderRadius float64
 	ImageURL, MimeType                         string
-	Clip                                       ImageClip
 	Buffer                                     []byte
+	Clip                                       ImageClip
 }
 
 // Rect is a rectangle in 2D defined by a position and its width and height.
@@ -98,4 +98,3 @@ type Font struct {
 // 	}
 // 	return color.Alpha{0}
 // }
-

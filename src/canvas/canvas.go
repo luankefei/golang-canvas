@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"encoding/base64"
 	"fmt"
+	"image/color"
+
 	// "image/color"
 	"io/ioutil"
 	"os"
@@ -63,6 +65,12 @@ func CreateImage(d []Drawer, g GlobalConfig) {
 	fmt.Println("create image", len(d), g)
 
 	c := Canvas{canvas.New(g.Width, g.Height)}
+
+	ctx := canvas.NewContext(c)
+
+	// to draw a red background
+	ctx.SetFillColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
+	ctx.DrawPath(0, 0, canvas.Rectangle(g.Width, g.Height))
 
 	// 对*canvas.Draw函数传入绘图数据
 	c.Draw(d)

@@ -37,11 +37,18 @@ func TestCreateImage(t *testing.T) {
 		&Image{
 			// name: "qrCode"
 			// DrawType: "image",
-			ImageURL: "https://img.laiye.com/G0gmxRbVb4EtnpEi1mUK2FkTk5HcCuK6mbX7lj5qFYbU3D0A.png",
-			X:        930,
-			Y:        930,
-			Height:   150,
-			Width:    150,
+			ImageURL: "https://img.laiye.com/material_20200407053339_aiGLseDwFQ.jpeg",
+			// ImageURL: "https://img.laiye.com/material_20200407120852_aZpTetKBRb.jpg",
+			X:      930,
+			Y:      930,
+			Height: 150,
+			Width:  150,
+			Clip: ImageClip{
+				Width:  132,
+				Height: 132,
+				X:      9,
+				Y:      9,
+			},
 		},
 		&Text{
 			// name: "chickenMessage"
@@ -155,6 +162,29 @@ func TestCreateImage(t *testing.T) {
 	CreateImage(data, global)
 }
 
+func TestCreateQcode(t *testing.T) {
+	// 塞到[]drawer之前就拆成两个数组
+	data := []Drawer{
+		&Image{
+			ImageURL: "https://img.laiye.com/material_20200407053339_aiGLseDwFQ.jpeg",
+			X:        0,
+			Y:        0,
+			Height:   100,
+			Width:    100,
+		},
+	}
+
+	global := GlobalConfig{
+		Width:    400,
+		Height:   400,
+		FileName: "test_qcode.png",
+	}
+
+	// fmt.Println(data, global)
+	CreateImage(data, global)
+
+}
+
 func TestBasicDrawImage(t *testing.T) {
 	c := Canvas{canvas.New(750, 750)}
 	ctx := canvas.NewContext(c)
@@ -171,7 +201,11 @@ func TestBasicDrawImage(t *testing.T) {
 	// image2 start (-1,-1) trying to fix margin
 	head, _ := os.Open("../static/head.jpg")
 	img, _ := jpeg.Decode(head)
-	ctx.DrawImage(-1, -1, img, 1)
+	ctx.DrawImage(0, 0, img, 1)
+
+	qcode, _ := os.Open("../static/qrcode.jpg")
+	qcodeImg, _ := jpeg.Decode(qcode)
+	ctx.DrawImage(0, 200, qcodeImg, 1)
 
 	c.SavePNG("test_position.png", 1)
 }
