@@ -21,20 +21,35 @@ func urlIsOss(imgURL string) bool {
 }
 
 // reformatUrl 将oss地址替换为内网地址，用oss实时缩图
-func reformatURL(imageURL string, resize bool, w float64, h float64) (string, error) {
+func reformatURL(imageURL string, r float64, resize bool, w float64, h float64) (string, error) {
 	if config.IsLocal() == false {
 		// 替换为内网地址
 		imageURL = strings.Replace(imageURL, "img.laiye.com", "laiye-image.oss-cn-beijing-internal.aliyuncs.com", 1)
 		imageURL = strings.Replace(imageURL, "oss-cn-beijing.aliyuncs.com", "oss-cn-beijing-internal.aliyuncs.com", 1)
 	}
-	if w == float64(0) && h == float64(0) && urlIsOss(imageURL) {
-		return "", fmt.Errorf("image(%s) not in oss can not assign w, h", imageURL)
-	} else if resize && w != float64(0) && h != float64(0) && urlIsOss(imageURL) {
-		// 调用 resize，默认是不允许放大。即如果请求的图片比原图大，那么返回的仍然是原图。如果想取到放大的图片，即增加参数调用 limit_0
-		// @see https://help.aliyun.com/document_detail/44688.html?spm=a2c4g.11186623.6.1367.57f117f1UQGsW3
-		// oss实时缩图，注意oss不支持float，所以这里要强转
+
+	// early return
+	if !urlIsOss(imageURL) || w == float64(0) || h == float64(0) {
+		return imageURL, nil
+	}
+
+	// 需要调用oss接口对图片做处理
+	if r > 0 || resize {
+		imageURL += "?x-oss-process=image"
+
 		// TODO: 如果使用oss resize，二维码会变形，原因未知
-		imageURL += fmt.Sprintf("?x-oss-process=image/resize,m_lfit,h_%d,w_%d,limit_0", uint32(h), uint32(w))
+		// @see https://help.aliyun.com/document_detail/44688.html?spm=a2c4g.11186623.6.1367.57f117f1UQGsW3
+		if resize {
+			// 调用 resize，默认是不允许放大。即如果请求的图片比原图大，那么返回的仍然是原图。如果想取到放大的图片，即增加参数调用 limit_0
+			// oss实时缩图，注意oss不支持float，所以这里要强转
+			imageURL += fmt.Sprintf("/resize,m_lfit,h_%d,w_%d,limit_0", uint32(h), uint32(w))
+		}
+
+		// 图片切圆角
+		// @see https://help.aliyun.com/document_detail/44694.html?spm=a2c4g.11186623.6.1372.5959c1f6Sz0KTS
+		if r > 0 {
+			imageURL += fmt.Sprintf("/rounded-corners,r_%d/format,png", uint32(r))
+		}
 	}
 
 	return imageURL, nil
@@ -50,12 +65,12 @@ func getFileContentType(buffer []byte) (string, error) {
 }
 
 // LoadImageByteFromRemote 从远程获取图片的字节流
-func loadImageByteFromRemote(imgURL string, resize bool, w float64, h float64) ([]byte, string, error) {
+func loadImageByteFromRemote(i *Image) ([]byte, string, error) {
 	img := []byte{}
 	var t string
 
 	// TODO: 使用阿里云oss处理图片 如果使用oss拉取图片，就变形了
-	imgURL, err := reformatURL(imgURL, resize, w, h)
+	imgURL, err := reformatURL(i.ImageURL, i.BorderRadius, i.Resize, i.Width, i.Height)
 	if err != nil {
 		return img, t, err
 	}

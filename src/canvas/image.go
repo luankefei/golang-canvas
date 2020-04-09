@@ -8,6 +8,7 @@ import (
 	"image/draw"
 	"image/jpeg"
 	"image/png"
+	"os"
 
 	// "os"
 
@@ -32,13 +33,12 @@ func (i *Image) Draw(c *canvas.Context) {
 
 	// 	fmt.Println("=====ClipPreserve", img.Bounds())
 	// }
-
 	// test 图片边缘裁剪
-	// 获取实际图片尺寸和传入参数之间的比例
-	scale := (float64(img.Bounds().Dx()) / i.Width)
 
 	// TODO: 阿里云oss resize不会对图片进行放大,只能缩小，所以绘制时仍然要依赖绘图库进行图片缩放
 	// TODO: 2020.4.7 考虑将计算缩放比率放到切图之后
+	// TODO: 研究一下crop的mode参数copy机制，对性能会有帮助
+	// 注意裁剪是基于原图尺寸的，例如二位码应该裁剪到430-370, starpos (30, 30)
 	if i.Clip.Width > 0 {
 		croppedImg, _ := cutter.Crop(img, cutter.Config{
 			Width:  i.Clip.Width,
@@ -46,7 +46,19 @@ func (i *Image) Draw(c *canvas.Context) {
 			Anchor: image.Point{i.Clip.X, i.Clip.Y},
 		})
 		img = croppedImg
+
+		f, err := os.Create("test_crop.jpg")
+		if err != nil {
+			panic(err)
+		}
+		defer f.Close()
+		jpeg.Encode(f, img, nil)
+		temp, _ := os.Open("test_crop.jpg")
+		img, _ = jpeg.Decode(temp)
 	}
+
+	// 获取实际图片尺寸和传入参数之间的比例
+	scale := (float64(img.Bounds().Dx()) / i.Width)
 
 	fmt.Println("=== image_draw: ", i.MimeType, i.ImageURL, i.Width, i.Height, scale, img.Bounds().Dx(), img.Bounds())
 	c.DrawImage(i.X, i.Y*-1-i.Height, img, scale)
@@ -94,7 +106,7 @@ func (i *Image) fetch() error {
 	// 	img, t, err = b.getLocalBufferImage(name, image)
 	// 	libs.Log().Info("trace_id(%s) get image(%+v) from local buffer, err(%+v)", traceId, image, err)
 	// } else {
-	img, t, err = loadImageByteFromRemote(i.ImageURL, i.Resize, i.Width, i.Height)
+	img, t, err = loadImageByteFromRemote(i)
 	// libs.Log().Info("trace_id(%s) get image(%+v) from remote, err(%+v)", traceId, image, err)
 	// }
 

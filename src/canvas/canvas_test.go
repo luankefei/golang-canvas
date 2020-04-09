@@ -23,6 +23,7 @@ func TestCreateImage(t *testing.T) {
 			Width:    1125,
 			Height:   1125,
 			ImageURL: "https://img.laiye.com/checkinAlbum_20200316083737_htqvLACrln.jpg",
+			Resize:   true,
 		},
 		&Image{
 			// name: "avatar"
@@ -33,6 +34,7 @@ func TestCreateImage(t *testing.T) {
 			Width:        150,
 			Height:       150,
 			BorderRadius: 75,
+			Resize:       true,
 		},
 		&Image{
 			// name: "qrCode"
@@ -44,10 +46,10 @@ func TestCreateImage(t *testing.T) {
 			Height: 150,
 			Width:  150,
 			Clip: ImageClip{
-				Width:  132,
-				Height: 132,
-				X:      9,
-				Y:      9,
+				Width:  370,
+				Height: 370,
+				X:      30,
+				Y:      30,
 			},
 		},
 		&Text{
