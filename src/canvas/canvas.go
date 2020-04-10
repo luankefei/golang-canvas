@@ -32,12 +32,25 @@ func (c *Canvas) Draw(d []Drawer) {
 	// 对画布进行一次位移调整，拉回到左上角
 	// 注意绘制反向仍然是反向
 	matrix := canvas.Identity.Translate(0, c.H)
+
+	// 注意这里的对ctx.SetView不会影响到外侧CreateImage的ctx
 	ctx.SetView(matrix)
 
 	for _, v := range d {
 		v.Draw(ctx)
 	}
-	fmt.Println("draw_data_finish", len(d))
+
+	// TODO: test draw line
+	// drawline不受transform的影响
+	p := &canvas.Path{}
+	// p.MoveTo(45, 669)
+	p.LineTo(405, 0)
+	p.Close()
+
+	// ctx.SetFillColor(color.White)
+	ctx.SetStrokeColor(color.White)
+	ctx.SetStrokeWidth(2)
+	ctx.DrawPath(45, -669, p)
 }
 
 func prepareImage(d []Drawer) []*Image {
@@ -78,6 +91,8 @@ func CreateImage(d []Drawer, g GlobalConfig) {
 	// SavePNG的第二个参数是canvas导出时放大的倍数
 	// 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
 	c.SavePNG(g.FileName, 1)
+
+	fmt.Println("draw_data_finish", len(d))
 }
 
 // func compatibleData(d Drawer) {

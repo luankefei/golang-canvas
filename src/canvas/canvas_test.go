@@ -2,7 +2,6 @@ package canvas
 
 import (
 	"fmt"
-	"image/color"
 	"image/jpeg"
 	"os"
 	"testing"
@@ -192,13 +191,13 @@ func TestBasicDrawImage(t *testing.T) {
 	ctx := canvas.NewContext(c)
 
 	// to draw a red background
-	ctx.SetFillColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
-	ctx.DrawPath(0, 0, canvas.Rectangle(750, 750))
+	// ctx.SetFillColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
+	// ctx.DrawPath(0, 0, canvas.Rectangle(750, 750))
 
 	// image1 at point(0,0)
-	bg, _ := os.Open("../static/background.jpg")
-	bgImg, _ := jpeg.Decode(bg)
-	ctx.DrawImage(0, 0, bgImg, 1)
+	// bg, _ := os.Open("../static/background.jpg")
+	// bgImg, _ := jpeg.Decode(bg)
+	// ctx.DrawImage(0, 0, bgImg, 1)
 
 	// image2 start (-1,-1) trying to fix margin
 	head, _ := os.Open("../static/head.jpg")
@@ -208,6 +207,16 @@ func TestBasicDrawImage(t *testing.T) {
 	qcode, _ := os.Open("../static/qrcode.jpg")
 	qcodeImg, _ := jpeg.Decode(qcode)
 	ctx.DrawImage(0, 200, qcodeImg, 1)
+
+	// p := &canvas.Path{}
+	// // p.MoveTo(45, 669)
+	// p.LineTo(400, 0)
+	// p.Close()
+
+	// ctx.SetFillColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
+	// ctx.SetStrokeColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
+	// ctx.SetStrokeWidth(2)
+	// ctx.DrawPath(0, 100, p)
 
 	c.SavePNG("test_position.png", 1)
 }

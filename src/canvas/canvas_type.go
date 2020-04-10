@@ -63,6 +63,13 @@ type Rect struct {
 	X, Y, W, H float64
 }
 
+// Line config
+type Line struct {
+	Color                     string
+	X1, Y1, X2, Y2, LineWidth float64
+	Dashed                    bool
+}
+
 // Font define
 type Font struct {
 	FileName string           `json:filename`

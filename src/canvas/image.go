@@ -47,6 +47,7 @@ func (i *Image) Draw(c *canvas.Context) {
 		})
 		img = croppedImg
 
+		// TODO: test code
 		f, err := os.Create("test_crop.jpg")
 		if err != nil {
 			panic(err)
@@ -135,7 +136,7 @@ func (i *Image) fetch() error {
 func ClipPreserve(c *canvas.Context, i *Image, dst *image.RGBA) (draw.Image, error) {
 	// fmt.Println("ClipPreserve === 1", c.Width(), c.Height(), i.BorderRadius)
 	// var mask Path
-	mask := Path{*canvas.RoundedRectangle(i.Width, i.Height, i.BorderRadius), i}
+	mask := Mask{*canvas.RoundedRectangle(i.Width, i.Height, i.BorderRadius), i}
 	// fmt.Println("ClipPreserve === 2", mask)
 	tempPath := imaging.Resize(&mask, int(i.Width), int(i.Height), imaging.Linear)
 
