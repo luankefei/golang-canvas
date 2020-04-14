@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/tdewolff/canvas"
+	"github.com/tdewolff/canvas/rasterizer"
 )
 
 // 测试画图主入口的参数传入
@@ -205,7 +206,8 @@ func TestCropImage(t *testing.T) {
 	qcodeImg, _ := jpeg.Decode(qcode)
 	ctx.DrawImage(0, 200, qcodeImg, 1)
 
-	c.SavePNG("test_crop.png", 1)
+	// c.SavePNG("test_crop.png", 1)
+	c.WriteFile("test_crop.png", rasterizer.PNGWriter(1))
 }
 
 func TestRGBAToColor(t *testing.T) {

@@ -12,6 +12,7 @@ import (
 
 	"github.com/luankefei/golang-canvas/src/libs"
 	"github.com/tdewolff/canvas"
+	"github.com/tdewolff/canvas/rasterizer"
 )
 
 // Canvas is alias of *canvas.Canvas
@@ -90,7 +91,7 @@ func CreateImage(d []Drawer, g GlobalConfig) {
 
 	// SavePNG的第二个参数是canvas导出时放大的倍数
 	// 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
-	c.SavePNG(g.FileName, 1)
+	c.WriteFile(g.FileName, rasterizer.PNGWriter(1.0))
 
 	fmt.Println("draw_data_finish", len(d))
 }

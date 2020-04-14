@@ -21,7 +21,7 @@ func GetRect(ginc *gin.Context) {
 	// img := c.WriteImage(5.0)
 	// k
 	// buf := make([]byte, ctx.Length())
-	c.SavePNG("./out.png", 5.0)
+	// c.SavePNG("./out.png", 5.0)
 	// var html = "data:image/png;base64," + encoded
 	// ginc.PureJSON(http.StatusOK, gin.H{
 	// 	"html": html,
