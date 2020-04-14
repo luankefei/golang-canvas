@@ -8,13 +8,11 @@ import (
 	"image/draw"
 	"image/jpeg"
 	"image/png"
-	"os"
 
 	// "os"
 
 	// "github.com/llgcode/draw2d"
 	"github.com/disintegration/imaging"
-	"github.com/oliamb/cutter"
 	"github.com/rs/zerolog/log"
 	"github.com/tdewolff/canvas"
 	// "github.com/golang/freetype/raster"
@@ -40,22 +38,22 @@ func (i *Image) Draw(c *canvas.Context) {
 	// TODO: 研究一下crop的mode参数copy机制，对性能会有帮助
 	// 注意裁剪是基于原图尺寸的，例如二位码应该裁剪到430-370, starpos (30, 30)
 	if i.Clip.Width > 0 {
-		croppedImg, _ := cutter.Crop(img, cutter.Config{
-			Width:  i.Clip.Width,
-			Height: i.Clip.Height,
-			Anchor: image.Point{i.Clip.X, i.Clip.Y},
-		})
-		img = croppedImg
+		// croppedImg, _ := cutter.Crop(img, cutter.Config{
+		// 	Width:  i.Clip.Width,
+		// 	Height: i.Clip.Height,
+		// 	Anchor: image.Point{i.Clip.X, i.Clip.Y},
+		// })
+		// img = croppedImg
 
 		// TODO: test code
-		f, err := os.Create("test_crop.jpg")
-		if err != nil {
-			panic(err)
-		}
-		defer f.Close()
-		jpeg.Encode(f, img, nil)
-		temp, _ := os.Open("test_crop.jpg")
-		img, _ = jpeg.Decode(temp)
+		// f, err := os.Create("test_crop.jpg")
+		// if err != nil {
+		// 	panic(err)
+		// }
+		// defer f.Close()
+		// jpeg.Encode(f, img, nil)
+		// temp, _ := os.Open("test_crop.jpg")
+		// img, _ = jpeg.Decode(temp)
 	}
 
 	// 获取实际图片尺寸和传入参数之间的比例

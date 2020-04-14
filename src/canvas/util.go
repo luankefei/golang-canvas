@@ -52,6 +52,7 @@ func reformatURL(imageURL string, r float64, resize bool, w float64, h float64) 
 		}
 	}
 
+	fmt.Println("zzzz: ", imageURL)
 	return imageURL, nil
 }
 

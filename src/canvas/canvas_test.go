@@ -2,7 +2,9 @@ package canvas
 
 import (
 	"fmt"
+	"image/color"
 	"image/jpeg"
+	"image/png"
 	"os"
 	"testing"
 
@@ -44,6 +46,7 @@ func TestCreateImage(t *testing.T) {
 			Y:      930,
 			Height: 150,
 			Width:  150,
+			Resize: true,
 			Clip: ImageClip{
 				Width:  370,
 				Height: 370,
@@ -186,39 +189,23 @@ func TestCreateQcode(t *testing.T) {
 
 }
 
-func TestBasicDrawImage(t *testing.T) {
+func TestCropImage(t *testing.T) {
 	c := Canvas{canvas.New(750, 750)}
 	ctx := canvas.NewContext(c)
 
 	// to draw a red background
-	// ctx.SetFillColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
-	// ctx.DrawPath(0, 0, canvas.Rectangle(750, 750))
+	ctx.SetFillColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
+	ctx.DrawPath(0, 0, canvas.Rectangle(750, 750))
 
-	// image1 at point(0,0)
-	// bg, _ := os.Open("../static/background.jpg")
-	// bgImg, _ := jpeg.Decode(bg)
-	// ctx.DrawImage(0, 0, bgImg, 1)
-
-	// image2 start (-1,-1) trying to fix margin
-	head, _ := os.Open("../static/head.jpg")
-	img, _ := jpeg.Decode(head)
+	head, _ := os.Open("../static/crop_head.png")
+	img, _ := png.Decode(head)
 	ctx.DrawImage(0, 0, img, 1)
 
-	qcode, _ := os.Open("../static/qrcode.jpg")
+	qcode, _ := os.Open("../static/crop_qrcode.jpeg")
 	qcodeImg, _ := jpeg.Decode(qcode)
 	ctx.DrawImage(0, 200, qcodeImg, 1)
 
-	// p := &canvas.Path{}
-	// // p.MoveTo(45, 669)
-	// p.LineTo(400, 0)
-	// p.Close()
-
-	// ctx.SetFillColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
-	// ctx.SetStrokeColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
-	// ctx.SetStrokeWidth(2)
-	// ctx.DrawPath(0, 100, p)
-
-	c.SavePNG("test_position.png", 1)
+	c.SavePNG("test_crop.png", 1)
 }
 
 func TestRGBAToColor(t *testing.T) {
@@ -252,3 +239,22 @@ func TestLoadImageFilter(t *testing.T) {
 
 	fmt.Println("TestLoadImageFilter finish", len(images))
 }
+
+// func TestCropImage(t *testing.T) {
+// 	prepareImage(d)
+
+// 	c := Canvas{canvas.New(1125, 1125)}
+
+// 	ctx := canvas.NewContext(c)
+
+// 	// to draw a red background
+// 	ctx.SetFillColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
+// 	ctx.DrawPath(0, 0, canvas.Rectangle(1125, 1125))
+
+// 	// 对*canvas.Draw函数传入绘图数据
+// 	c.Draw(d)
+
+// 	// SavePNG的第二个参数是canvas导出时放大的倍数
+// 	// 尽量导出2x或者3x的尺寸，但坐标是1x的，需要更多测试
+// 	c.SavePNG("test_crop.png", 1)
+// }

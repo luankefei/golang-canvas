@@ -1,4 +1,5 @@
 # golang-canvas
+
 canvas api demo
 
 ### 目录
@@ -16,24 +17,23 @@ src
 	static              静态资源
 	test                demo
 	views               页面模板
-	
+
 
 go.mod
 .pre-commit-config.yaml, .pre-commit-hooks.yaml
 ```
 
-
 ### Testing
+
 Unit tests:
 
 ```
 $ go test -v
 ```
 
-
 ### 元素类型
 
-此处设计会尽量向前兼容，靠近canvas-api
+此处设计会尽量向前兼容，靠近 canvas-api
 
 ```
 
@@ -75,11 +75,10 @@ ILine {
 }
 ```
 
-
 ### TODO
 
 - 规范字体命名
-- 规范log，全链路监控
+- 规范 log，全链路监控
 - 测试用例
 - 消息队列
 - 定时重启
@@ -98,8 +97,6 @@ ILine {
 
 ### 依赖方案
 
-+ [gin](https://github.com/gin-gonic/gin)
-+ [kafka](https://github.com/NervJS/taro)
-+ [canvas](https://github.com/tdewolff/canvas)
-
-
+- [gin](https://github.com/gin-gonic/gin)
+- [kafka](https://github.com/NervJS/taro)
+- [canvas](https://github.com/oliverpool/canvas)
