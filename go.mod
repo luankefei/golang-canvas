@@ -19,6 +19,7 @@ require (
 // replace github.com/tdewolff/canvas => github.com/oliverpool/canvas@fix_render_image
 replace routes v0.0.0 => ./src/routes
 
-replace github.com/tdewolff/canvas => github.com/oliverpool/canvas v0.0.0-20200414091838-a81c43fb9787
+// replace github.com/tdewolff/canvas => github.com/oliverpool/canvas v0.0.0-20200414091838-a81c43fb9787
+replace github.com/tdewolff/canvas => github.com/oliverpool/canvas v0.0.0-20200414143817-2158c3b733b4
 
 // replace github.com/tdewolff/canvas => github.com/oliverpool/canvas fix_render_image
