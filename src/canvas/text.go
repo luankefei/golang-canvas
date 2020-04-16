@@ -32,7 +32,7 @@ func (t *Text) Draw(c *canvas.Context) {
 	metrics := face.Metrics()
 	diff := metrics.Ascent - metrics.CapHeight
 
-	// TODO: stroke
+	// TODO: feature stroke
 	// fmt.Println("draw stroke", t.X, t.Y*-1+diff+t.LineHeight, content)
 	// p, _ := face.ToPath(content)
 	// c.DrawPath(t.X, t.Y*-1+diff-t.LineHeight, p.Stroke(0.75, canvas.RoundCap, canvas.RoundJoin))

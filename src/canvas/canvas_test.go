@@ -28,8 +28,7 @@ func TestCreateImage(t *testing.T) {
 			Resize:   true,
 		},
 		&Image{
-			// name: "avatar"
-			// Type:         "image",
+			Name: "avatar"
 			ImageURL:     "https://img.laiye.com/cLvgXicdq4RMvFgMeyiarFciatqCEPrkGudP9N6SceHhmA4Tl2unDvK4rNVCFroJZcfqMnUGvnBeDLaZpDYW0TRl9lxmD47gs70.jpg",
 			X:            48,
 			Y:            48,
@@ -39,10 +38,7 @@ func TestCreateImage(t *testing.T) {
 			Resize:       true,
 		},
 		&Image{
-			// name: "qrCode"
-			// DrawType: "image",
 			ImageURL: "https://img.laiye.com/material_20200407053339_aiGLseDwFQ.jpeg",
-			// ImageURL: "https://img.laiye.com/material_20200407120852_aZpTetKBRb.jpg",
 			X:      930,
 			Y:      930,
 			Height: 150,
@@ -56,8 +52,7 @@ func TestCreateImage(t *testing.T) {
 			},
 		},
 		&Text{
-			// name: "chickenMessage"
-			// DrawType:   "text",
+			Name: "chickenMessage"
 			Content:    "之所以能，是因为相信能",
 			X:          270,
 			Y:          975,
@@ -70,8 +65,7 @@ func TestCreateImage(t *testing.T) {
 			FontFamily: "PingFang",
 		},
 		&Text{
-			// Name: "welcomeMessage"
-			// DrawType: "text",
+			Name: "welcomeMessage"
 			Content:    "扫码和我互道早安",
 			X:          570,
 			Y:          1035,
@@ -163,7 +157,6 @@ func TestCreateImage(t *testing.T) {
 		FileName: "test_mask.png",
 	}
 
-	// fmt.Println(data, global)
 	CreateImage(data, global)
 }
 
@@ -206,7 +199,6 @@ func TestCropImage(t *testing.T) {
 	qcodeImg, _ := jpeg.Decode(qcode)
 	ctx.DrawImage(0, 200, qcodeImg, 1)
 
-	// c.SavePNG("test_crop.png", 1)
 	c.WriteFile("test_crop.png", rasterizer.PNGWriter(1))
 }
 
@@ -234,10 +226,6 @@ func TestLoadImageFilter(t *testing.T) {
 	}
 
 	images := LoadImageFilter(testArr)
-	// for _, v := range images {
-	// 	// TODO: traceId在http header内，image_key用来做兜底方案
-	// 	v.fetch()
-	// }
 
 	fmt.Println("TestLoadImageFilter finish", len(images))
 }

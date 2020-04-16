@@ -106,9 +106,6 @@ func loadImageByteFromRemote(i *Image) ([]byte, string, error) {
 	return img, t, nil
 }
 
-// fetchOneImage 获取一个图片的字节流和类型
-//  (b *FetchPic)
-
 // LoadImageFilter drawer
 // TODO: 这里后续可以加入buffer_name和expires的检查
 func LoadImageFilter(arr []interface{}) []*Image {
@@ -167,17 +164,10 @@ func HexToColor(h string) color.RGBA {
 
 	color := color.RGBA{b[0], b[1], b[2], b[3]}
 
-	return color
-
-	// fmt.Println(color) // Output: {16 32 48 255}
+	return color // Output: {16 32 48 255}
 }
 
 func normalize(colorStr string) (string, error) {
 	// left as an exercise for the reader
 	return colorStr, nil
 }
-
-// func (b *FetchPic) fetcheImage(traceId string, businessName string, image *draw_pb.Image,
-// 	image_key string) error {
-
-// }
