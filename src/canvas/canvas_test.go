@@ -28,7 +28,7 @@ func TestCreateImage(t *testing.T) {
 			Resize:   true,
 		},
 		&Image{
-			Name: "avatar"
+			Name: "avatar",
 			ImageURL:     "https://img.laiye.com/cLvgXicdq4RMvFgMeyiarFciatqCEPrkGudP9N6SceHhmA4Tl2unDvK4rNVCFroJZcfqMnUGvnBeDLaZpDYW0TRl9lxmD47gs70.jpg",
 			X:            48,
 			Y:            48,

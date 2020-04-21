@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// ISLocal is a condition to
+// IsLocal 识别当前环境是否是本地环境
 // TODO: IsLocal
 func IsLocal() bool {
 	return true
